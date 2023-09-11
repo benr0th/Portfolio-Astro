@@ -4,6 +4,7 @@ const Images = {
     heroIdle: new ex.ImageSource('sprites/mmIdle.png'),
 
     stageSelectImg: new ex.ImageSource('maps/stage_select.png'),
+    heroEyes: new ex.ImageSource('sprites/mmEyes.png'),
 }
 
 const Sounds = {

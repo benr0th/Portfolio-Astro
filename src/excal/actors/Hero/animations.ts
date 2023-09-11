@@ -11,6 +11,22 @@ const heroSpriteSheet = ex.SpriteSheet.fromImageSource({
     },
 })
 
+export const eyeSpriteSheet = ex.SpriteSheet.fromImageSource({
+    image: Images.heroEyes,
+    grid: {
+        columns: 3,
+        rows: 3,
+        spriteWidth: 32,
+        spriteHeight: 32,
+    },
+    spacing: {
+        margin: {
+            x: 1,
+            y: 1
+        }
+    }
+})
+
 const idle = ex.Animation.fromSpriteSheet(heroSpriteSheet, [0, 1], 500)
 const idleRight = idle.clone()
 idleRight.flipHorizontal = true

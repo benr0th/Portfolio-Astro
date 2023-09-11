@@ -1,11 +1,15 @@
 import * as ex from "excalibur";
 import { Images } from "../resources";
+import { eyeSpriteSheet } from "../actors/Hero/animations";
 
 const ui = document.getElementById("ui");
 let selectedMenuItem: stageSelector;
 let menuItems: stageSelector[][];
 // Initial selected menu item index
 let selectedMenuItemIndex = [1, 1];
+let effect: selectEffect | null = null;
+// Initialize with invalid indices
+let prevSelectedItemIndex = [-1, -1];
 
 class stageLabel extends ex.Label {
   constructor(x: number, y: number, text: string) {
@@ -47,7 +51,7 @@ class stageSelector extends ex.Actor {
     });
 
     this.on("pointerenter", () => {
-      this.color = ex.Color.Yellow;
+      // this.color = ex.Color.Yellow;
     });
 
     this.on("pointerleave", () => {
@@ -66,14 +70,121 @@ class selectEffect extends ex.Actor {
   }
 
   onInitialize(engine: ex.Engine): void {
-    this.graphics.use(
-      new ex.Line({
-        start: ex.vec(0, 0),
-        end: ex.vec(0, 60),
-        color: ex.Color.White,
-        thickness: 9,
-      })
-    );
+    const lineGraphic = new ex.GraphicsGroup({
+      members: [
+        {
+          graphic: new ex.Line({
+            start: ex.vec(0, 0),
+            end: ex.vec(0, 60),
+            color: ex.Color.White,
+            thickness: 9,
+          }),
+          pos: ex.vec(0, 0),
+        },
+        {
+          graphic: new ex.Line({
+            start: ex.vec(0, 0),
+            end: ex.vec(60, 0),
+            color: ex.Color.White,
+            thickness: 9,
+          }),
+          pos: ex.vec(30, -30),
+        },
+        {
+          graphic: new ex.Line({
+            start: ex.vec(0, 0),
+            end: ex.vec(0, 60),
+            color: ex.Color.White,
+            thickness: 9,
+          }),
+          pos: ex.vec(120, 0),
+        },
+        {
+          graphic: new ex.Line({
+            start: ex.vec(0, 0),
+            end: ex.vec(60, 0),
+            color: ex.Color.White,
+            thickness: 9,
+          }),
+          pos: ex.vec(30, 90),
+        },
+      ],
+    });
+    const blankGraphic = new ex.Line({
+      start: ex.vec(0, 0),
+      end: ex.vec(0, 0),
+      color: ex.Color.Transparent,
+      thickness: 0,
+    });
+    const selectAnim = new ex.Animation({
+      frames: [
+        { graphic: lineGraphic, duration: 133 },
+        { graphic: blankGraphic, duration: 133 },
+      ],
+      strategy: ex.AnimationStrategy.Loop,
+    });
+    this.graphics.use(selectAnim);
+  }
+}
+
+class movingEyes extends ex.Actor {
+  constructor() {
+    super({
+      x: 520,
+      y: 360,
+      width: 31,
+      height: 31,
+      scale: ex.vec(3, 3),
+      anchor: ex.vec(0, 0),
+    });
+  }
+
+  update(engine: ex.Engine, delta: number): void {
+    super.update(engine, delta);
+    switch (selectedMenuItemIndex[0]) {
+      case 0:
+        switch (selectedMenuItemIndex[1]) {
+          case 0:
+            this.graphics.use(eyeSpriteSheet.sprites[0]);
+            break;
+          case 1:
+            this.graphics.use(eyeSpriteSheet.sprites[1]);
+            break;
+          case 2:
+            this.graphics.use(eyeSpriteSheet.sprites[2]);
+            break;
+        }
+        break;
+      case 1:
+        switch (selectedMenuItemIndex[1]) {
+          case 0:
+            this.graphics.use(eyeSpriteSheet.sprites[6]);
+            break;
+          case 1:
+            this.graphics.use(eyeSpriteSheet.sprites[4]);
+            break;
+          case 2:
+            this.graphics.use(eyeSpriteSheet.sprites[8]);
+            break;
+        }
+        break;
+      case 2:
+        switch (selectedMenuItemIndex[1]) {
+          case 0:
+            this.graphics.use(eyeSpriteSheet.sprites[3]);
+            break;
+          case 1:
+            this.graphics.use(eyeSpriteSheet.sprites[7]);
+            break;
+          case 2:
+            this.graphics.use(eyeSpriteSheet.sprites[5]);
+            break;
+        }
+        break;
+      default:
+        this.graphics.use(eyeSpriteSheet.sprites[4]);
+        break;
+    }
   }
 }
 
@@ -109,25 +220,25 @@ export class MainMenu extends ex.Scene {
     const editingStage = new stageSelector(816, 405, "editing");
     const placeHolder1 = new stageSelector(320, 210, "placeHolder1");
     const placeHolder2 = new stageSelector(816, 210, "placeHolder2");
+    const placeHolder3 = new stageSelector(320, 610, "placeHolder3");
+    const placeHolder4 = new stageSelector(568, 610, "placeHolder4");
+    const placeHolder5 = new stageSelector(816, 610, "placeHolder5");
 
-    selectedMenuItem = codingStage;
+    selectedMenuItem = bioStage;
     // Default hover index
     let hoverIndex = [-1, -1];
 
-    menuItems = [[placeHolder1, codingStage, placeHolder2], [gameDevStage, bioStage, editingStage]];
+    menuItems = [
+      [placeHolder1, codingStage, placeHolder2],
+      [gameDevStage, bioStage, editingStage],
+      [placeHolder3, placeHolder4, placeHolder5]
+    ];
 
     // Function to handle menu item selection
     function handleMenuItemSelection() {
       console.log(`Selected: ${selectedMenuItem.selectedScene}`);
       // Perform the action associated with the selected menu item here
     }
-
-    //   const effect = new selectEffect(item.pos.x - 60, item.pos.y - 30)
-    //   if (item.selectedScene === 'gameDev') {
-    //     this.engine.add(effect)
-    //   } else {
-    //     this.engine.remove(effect)
-    //   }
 
     for (let i = 0; i < menuItems.length; i++) {
       const row = menuItems[i];
@@ -148,6 +259,8 @@ export class MainMenu extends ex.Scene {
         this.engine.add(item);
       }
     }
+
+    this.engine.add(new movingEyes);
   }
 
   update(engine: ex.Engine, delta: number): void {
@@ -155,36 +268,35 @@ export class MainMenu extends ex.Scene {
     selectedMenuItem =
       menuItems[selectedMenuItemIndex[0]][selectedMenuItemIndex[1]];
 
-      let prevSelectedItemIndex: [number, number] = [-1, -1]; // Initialize with invalid indices
+    // In your update method, check if the selected item has changed
+    if (
+      selectedMenuItemIndex[0] !== prevSelectedItemIndex[0] ||
+      selectedMenuItemIndex[1] !== prevSelectedItemIndex[1]
+    ) {
+      // Remove the previous effect if it exists
+      if (effect) {
+        engine.remove(effect);
+        effect = null;
+      }
+      // Update colors based on the new selected item
+      for (let i = 0; i < menuItems.length; i++) {
+        const row = menuItems[i];
 
-      // In your update method, check if the selected item has changed
-      if (
-        selectedMenuItemIndex[0] !== prevSelectedItemIndex[0] ||
-        selectedMenuItemIndex[1] !== prevSelectedItemIndex[1]
-      ) {
-        // Update colors based on the new selected item
-        for (let i = 0; i < menuItems.length; i++) {
-          const row = menuItems[i];
-      
-          for (let j = 0; j < row.length; j++) {
-            const item = row[j];
-      
-            // const effect = new selectEffect(item.pos.x - 60, item.pos.y - 30);
-            if (selectedMenuItem === item) {
-              item.color = ex.Color.Yellow;
-              // engine.add(effect);
-              
-            } else {
-              item.color = ex.Color.Transparent;
-              // engine.remove(effect)
+        for (let j = 0; j < row.length; j++) {
+          const item = row[j];
+          if (selectedMenuItem === item) {
+            if (!effect) {
+              effect = new selectEffect(item.pos.x - 60, item.pos.y - 30);
+              engine.add(effect);
             }
           }
         }
-      
-        // Update the previous selected item indices
-        //@ts-ignore
-        prevSelectedItemIndex = selectedMenuItemIndex.slice();
       }
+
+      // Update the previous selected item indices
+      //@ts-ignore
+      prevSelectedItemIndex = selectedMenuItemIndex.slice();
+    }
 
     const [row, column] = selectedMenuItemIndex;
     if (engine.input.keyboard.wasPressed(ex.Keys.Up)) {
@@ -210,7 +322,6 @@ export class MainMenu extends ex.Scene {
       // Handle action for the selected menu item
       console.log(`Selected: ${selectedMenuItem.selectedScene}`);
     }
-
   }
 
   onDeactivate(): void {
