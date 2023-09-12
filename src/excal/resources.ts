@@ -4,6 +4,8 @@ const Images = {
     heroIdle: new ex.ImageSource('sprites/mmIdle.png'),
 
     stageSelectImg: new ex.ImageSource('maps/stage_select.png'),
+    titleScreenImg: new ex.ImageSource('maps/title_screen.png'),
+    titleScreenArrow: new ex.ImageSource('sprites/titleScreenArrow.png'),
     heroEyes: new ex.ImageSource('sprites/mmEyes.png'),
 }
 

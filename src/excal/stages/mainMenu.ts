@@ -249,7 +249,6 @@ export class MainMenu extends ex.Scene {
         item.on("pointerenter", () => {
           selectedMenuItemIndex = [i, j];
           hoverIndex = [i, j];
-          console.log(`Selected: ${item.selectedScene}`);
         });
 
         item.on("pointerleave", () => {
@@ -286,15 +285,20 @@ export class MainMenu extends ex.Scene {
           const item = row[j];
           if (selectedMenuItem === item) {
             if (!effect) {
-              effect = new selectEffect(item.pos.x - 60, item.pos.y - 30);
-              engine.add(effect);
+              if (selectedMenuItemIndex[0] === 0) {
+                effect = new selectEffect(item.pos.x - 60, item.pos.y - 30);
+              } else if (selectedMenuItemIndex[0] === 1) {
+                effect = new selectEffect(item.pos.x - 60, item.pos.y - 27);
+              } else if (selectedMenuItemIndex[0] === 2) {
+                effect = new selectEffect(item.pos.x - 60, item.pos.y - 35);
+              }
+              engine.add(effect!);
             }
           }
         }
       }
 
       // Update the previous selected item indices
-      //@ts-ignore
       prevSelectedItemIndex = selectedMenuItemIndex.slice();
     }
 
