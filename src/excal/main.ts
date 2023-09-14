@@ -1,5 +1,5 @@
 import * as ex from 'excalibur'
-import { loader } from './resources'
+import { loader } from './resources.ts'
 import { Hero } from './actors/Hero/hero.ts'
 import { MainMenu, StageSelect } from './stages/mainMenu.ts'
 import { TitleScreen } from './stages/titleScreen.ts'
@@ -53,5 +53,3 @@ game.start(loader).then(() => {
     // Start the game
     ex.AudioContextFactory.create()
 })
-
-

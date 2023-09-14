@@ -52,9 +52,6 @@ devDependencies:
   stylelint-config-standard-scss:
     specifier: ^11.0.0
     version: 11.0.0(postcss@8.4.29)(stylelint@15.10.3)
-  three:
-    specifier: ^0.156.1
-    version: 0.156.1
 
 packages:
 
@@ -5180,10 +5177,6 @@ packages:
     dependencies:
       any-promise: 1.3.0
     dev: false
-
-  /three@0.156.1:
-    resolution: {integrity: sha512-kP7H0FK9d/k6t/XvQ9FO6i+QrePoDcNhwl0I02+wmUJRNSLCUIDMcfObnzQvxb37/0Uc9TDT0T1HgsRRrO6SYQ==}
-    dev: true
 
   /titleize@3.0.0:
     resolution: {integrity: sha512-KxVu8EYHDPBdUYdKZdKtU2aj2XfEx9AfjXxE/Aj0vT06w2icA09Vus1rh6eSu1y01akYg6BjIK/hxyLJINoMLQ==}
