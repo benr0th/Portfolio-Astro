@@ -28,6 +28,27 @@ game.goToScene('titleScreen')
 const hero = new Hero(200, 200)
 // game.add(hero)
 
+async function waitForFontLoad(font: string, timeout = 2000, interval = 100) {
+    return new Promise((resolve, reject) => {
+      // repeatedly poll check
+      const poller = setInterval(async () => {
+        try {
+          await document.fonts.load(font);
+        } catch (err) {
+          reject(err);
+        }
+        if (document.fonts.check(font)) {
+          clearInterval(poller);
+          resolve(true);
+        }
+      }, interval);
+      setTimeout(() => clearInterval(poller), timeout);
+    });
+  }
+  
+  // Load font before game start
+await waitForFontLoad('18px MMRock9');
+
 game.start(loader).then(() => {
     // Start the game
     ex.AudioContextFactory.create()

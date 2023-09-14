@@ -36,8 +36,8 @@ export class TitleScreen extends ex.Scene {
     // });
 
     const startButton = new ex.Actor({
-      x: engine.halfDrawWidth + 55,
-      y: engine.halfDrawHeight + 215,
+      x: 280,
+      y: 390,
       width: 250,
       height: 30,
       color: ex.Color.Transparent,
@@ -46,8 +46,8 @@ export class TitleScreen extends ex.Scene {
     });
 
     const passButton = new ex.Actor({
-      x: engine.halfDrawWidth + 55,
-      y: engine.halfDrawHeight + 270,
+      x: 280,
+      y: 450,
       width: 250,
       height: 30,
       color: ex.Color.Transparent,
@@ -56,8 +56,8 @@ export class TitleScreen extends ex.Scene {
     });
 
     const titleSelectorStart = new ex.Actor({
-      x: engine.halfDrawWidth + 40,
-      y: engine.halfDrawHeight + 230,
+      x: 260,
+      y: 410,
       width: 250,
       height: 30,
       color: ex.Color.Transparent,
@@ -68,11 +68,11 @@ export class TitleScreen extends ex.Scene {
     titleSelectorStart.graphics.use(Images.titleScreenArrow.toSprite());
 
     const titleSelectorPass = new ex.Actor({
-      x: engine.halfDrawWidth + 40,
-      y: engine.halfDrawHeight + 281,
+      x: 260,
+      y: 463,
       width: 250,
       height: 30,
-      color: ex.Color.Transparent,
+      color: ex.Color.Red,
       z: 1,
       scale: ex.vec(1.5, 1.5),
     });
@@ -135,8 +135,8 @@ export class TitleScreen extends ex.Scene {
 class TitlePicture extends ex.Actor {
   constructor() {
     super({
-      x: 100,
-      y: 120,
+      x: -75,
+      y: 0,
       height: 1200,
       width: 850,
       anchor: ex.vec(0, 0),

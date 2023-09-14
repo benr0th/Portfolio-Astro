@@ -130,11 +130,11 @@ class selectEffect extends ex.Actor {
 class movingEyes extends ex.Actor {
   constructor() {
     super({
-      x: 520,
-      y: 360,
+      x: 350,
+      y: 239,
       width: 31,
       height: 31,
-      scale: ex.vec(3, 3),
+      scale: ex.vec(3.2, 3.2),
       anchor: ex.vec(0, 0),
     });
   }
@@ -203,10 +203,10 @@ export class MainMenu extends ex.Scene {
   }
 
   onInitialize(_engine: ex.Engine): void {
-    const codingLabel = new stageLabel(570, 310, "CODING");
-    const gameDevLabel = new stageLabel(320, 510, "GAME DEV");
-    const bioLabel = new stageLabel(570, 510, "ABOUT ME");
-    const editingLabel = new stageLabel(817, 510, "EDITING");
+    const codingLabel = new stageLabel(400, 195, "CODING");
+    const gameDevLabel = new stageLabel(150, 395, "GAME DEV");
+    const bioLabel = new stageLabel(400, 395, "ABOUT ME");
+    const editingLabel = new stageLabel(650, 395, "EDITING");
 
     const labelItems = [codingLabel, gameDevLabel, bioLabel, editingLabel];
 
@@ -214,15 +214,15 @@ export class MainMenu extends ex.Scene {
       this.engine.add(item);
     }
 
-    const codingStage = new stageSelector(568, 210, "webDev");
-    const gameDevStage = new stageSelector(320, 405, "gameDev");
-    const bioStage = new stageSelector(568, 405, "bio");
-    const editingStage = new stageSelector(816, 405, "editing");
-    const placeHolder1 = new stageSelector(320, 210, "placeHolder1");
-    const placeHolder2 = new stageSelector(816, 210, "placeHolder2");
-    const placeHolder3 = new stageSelector(320, 610, "placeHolder3");
-    const placeHolder4 = new stageSelector(568, 610, "placeHolder4");
-    const placeHolder5 = new stageSelector(816, 610, "placeHolder5");
+    const codingStage = new stageSelector(401, 88, "webDev");
+    const gameDevStage = new stageSelector(147, 288, "gameDev");
+    const bioStage = new stageSelector(401, 288, "bio");
+    const editingStage = new stageSelector(653, 288, "editing");
+    const placeHolder1 = new stageSelector(147, 88, "placeHolder1");
+    const placeHolder2 = new stageSelector(653, 88, "placeHolder2");
+    const placeHolder3 = new stageSelector(147, 499, "placeHolder3");
+    const placeHolder4 = new stageSelector(401, 499, "placeHolder4");
+    const placeHolder5 = new stageSelector(653, 499, "placeHolder5");
 
     selectedMenuItem = bioStage;
     // Default hover index
@@ -264,10 +264,11 @@ export class MainMenu extends ex.Scene {
 
   update(engine: ex.Engine, delta: number): void {
     super.update(engine, delta);
+    
     selectedMenuItem =
       menuItems[selectedMenuItemIndex[0]][selectedMenuItemIndex[1]];
 
-    // In your update method, check if the selected item has changed
+    // Check if the selected item has changed
     if (
       selectedMenuItemIndex[0] !== prevSelectedItemIndex[0] ||
       selectedMenuItemIndex[1] !== prevSelectedItemIndex[1]
@@ -338,11 +339,11 @@ export class StageSelect extends ex.Actor {
   constructor() {
     super({
       anchor: ex.Vector.Zero,
-      x: 173,
-      y: 105,
+      x: -5,
+      y: -20,
       width: 800,
       height: 600,
-      scale: new ex.Vector(0.8, 0.8),
+      scale: new ex.Vector(0.82, 0.82),
     });
   }
 
