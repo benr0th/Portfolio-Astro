@@ -1,6 +1,7 @@
 import * as ex from "excalibur";
 import { Images } from "../resources";
 import { eyeSpriteSheet } from "../actors/Hero/animations";
+import { portalRoom } from "./gameDev";
 
 const ui = document.getElementById("ui");
 let selectedMenuItem: stageSelector;
@@ -31,7 +32,8 @@ class stageLabel extends ex.Label {
 
 class stageSelector extends ex.Actor {
   selectedScene: string;
-  constructor(x: number, y: number, selectedScene: string) {
+  spriteToUse: ex.ImageSource;
+  constructor(x: number, y: number, selectedScene: string, spriteToUse: ex.ImageSource) {
     super({
       x,
       y,
@@ -42,21 +44,16 @@ class stageSelector extends ex.Actor {
     });
 
     this.selectedScene = selectedScene;
+    this.spriteToUse = spriteToUse;
   }
 
   onInitialize(engine: ex.Engine): void {
     this.on("pointerup", () => {
-      // engine.goToScene(this.selectedScene)
+      engine.goToScene(this.selectedScene)
       console.log(`go to ${this.selectedScene}`);
     });
 
-    this.on("pointerenter", () => {
-      // this.color = ex.Color.Yellow;
-    });
-
-    this.on("pointerleave", () => {
-      this.color = ex.Color.Transparent;
-    });
+    // this.graphics.use(this.spriteToUse.toSprite())
   }
 }
 
@@ -139,6 +136,10 @@ class movingEyes extends ex.Actor {
     });
   }
 
+  onInitialize(_engine: ex.Engine): void {
+    this.graphics.use(eyeSpriteSheet.sprites[4]);
+  }
+
   update(engine: ex.Engine, delta: number): void {
     super.update(engine, delta);
     switch (selectedMenuItemIndex[0]) {
@@ -203,6 +204,9 @@ export class MainMenu extends ex.Scene {
   }
 
   onInitialize(_engine: ex.Engine): void {
+    this.engine.add(new StageSelect);
+    this.engine.add(new movingEyes);
+
     const codingLabel = new stageLabel(400, 195, "CODING");
     const gameDevLabel = new stageLabel(150, 395, "GAME DEV");
     const bioLabel = new stageLabel(400, 395, "ABOUT ME");
@@ -213,7 +217,7 @@ export class MainMenu extends ex.Scene {
     for (const item of labelItems) {
       this.engine.add(item);
     }
-
+    this.engine.add('gameDev', new portalRoom)
     const codingStage = new stageSelector(401, 88, "webDev");
     const gameDevStage = new stageSelector(147, 288, "gameDev");
     const bioStage = new stageSelector(401, 288, "bio");
@@ -259,7 +263,6 @@ export class MainMenu extends ex.Scene {
       }
     }
 
-    this.engine.add(new movingEyes);
   }
 
   update(engine: ex.Engine, delta: number): void {
@@ -325,6 +328,7 @@ export class MainMenu extends ex.Scene {
 
     if (engine.input.keyboard.wasPressed(ex.Keys.Enter)) {
       // Handle action for the selected menu item
+      engine.goToScene(selectedMenuItem.selectedScene);
       console.log(`Selected: ${selectedMenuItem.selectedScene}`);
     }
   }

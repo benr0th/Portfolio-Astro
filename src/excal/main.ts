@@ -18,15 +18,10 @@ const game = new ex.Engine({
 
 ex.Physics.acc = new ex.Vector(0, 1500)
 
-const mainMenu = new MainMenu()
-mainMenu.add(new StageSelect)
 game.add('titleScreen', new TitleScreen)
-game.add('mainMenu', mainMenu)
-game.goToScene('titleScreen')
-// game.goToScene('mainMenu')
-
-const hero = new Hero(200, 200)
-// game.add(hero)
+game.add('mainMenu', new MainMenu)
+// game.goToScene('titleScreen')
+game.goToScene('mainMenu')
 
 async function waitForFontLoad(font: string, timeout = 2000, interval = 100) {
     return new Promise((resolve, reject) => {
@@ -46,7 +41,7 @@ async function waitForFontLoad(font: string, timeout = 2000, interval = 100) {
     });
   }
   
-  // Load font before game start
+// Load font before game start
 await waitForFontLoad('18px MMRock9');
 
 game.start(loader).then(() => {
