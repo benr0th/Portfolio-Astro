@@ -1,4 +1,4 @@
-import * as ex from 'excalibur'
+i9import * as ex from 'excalibur'
 import { loader } from './resources.ts'
 import { Hero } from './actors/Hero/hero.ts'
 import { MainMenu, StageSelect } from './stages/mainMenu.ts'
@@ -42,7 +42,7 @@ async function waitForFontLoad(font: string, timeout = 2000, interval = 100) {
   }
   
 // Load font before game start
-await waitForFontLoad('18px MMRock9');
+// await waitForFontLoad('18px MMRock9');
 
 game.start(loader).then(() => {
     // Start the game
