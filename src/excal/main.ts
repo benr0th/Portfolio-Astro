@@ -28,7 +28,7 @@ async function waitForFontLoad(font: string, timeout = 2000, interval = 100) {
       // repeatedly poll check
       const poller = setInterval(async () => {
         try {
-          await document.fonts.load(font);
+          await document.fonts.load(font).then((value) => {console.log(value)});
         } catch (err) {
           reject(err);
         }
@@ -42,7 +42,7 @@ async function waitForFontLoad(font: string, timeout = 2000, interval = 100) {
   }
   
 // Load font before game start
-// await waitForFontLoad('18px MMRock9');
+await waitForFontLoad('18px MMRock9');
 
 game.start(loader).then(() => {
     // Start the game
