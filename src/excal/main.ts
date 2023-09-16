@@ -1,4 +1,4 @@
-i9import * as ex from 'excalibur'
+import * as ex from 'excalibur'
 import { loader } from './resources.ts'
 import { Hero } from './actors/Hero/hero.ts'
 import { MainMenu, StageSelect } from './stages/mainMenu.ts'
