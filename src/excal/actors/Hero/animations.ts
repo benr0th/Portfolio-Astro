@@ -1,10 +1,27 @@
 import * as ex from 'excalibur'
 import { Images } from '../../resources.ts'
 
+// #region Sprite sheets
 const heroIdleSpriteSheet = ex.SpriteSheet.fromImageSource({
     image: Images.heroIdle,
     grid: {
         columns: 2,
+        rows: 1,
+        spriteWidth: 24,
+        spriteHeight: 24,
+    },
+    spacing: {
+        margin: {
+            x: 1,
+            y: 1
+        }
+    }
+})
+
+const heroRunSpriteSheet = ex.SpriteSheet.fromImageSource({
+    image: Images.heroRun,
+    grid: {
+        columns: 3,
         rows: 1,
         spriteWidth: 24,
         spriteHeight: 24,
@@ -32,7 +49,9 @@ export const eyeSpriteSheet = ex.SpriteSheet.fromImageSource({
         }
     }
 })
+// #endregion
 
+// #region Animations
 const idle = new ex.Animation({
     frames: [
         {
@@ -61,16 +80,24 @@ const jump = new ex.Animation({
 const jumpRight = jump.clone()
 jumpRight.flipHorizontal = true
 
+const run = ex.Animation.fromSpriteSheet(heroRunSpriteSheet, [0, 1, 2], 100)
+const runRight = run.clone()
+runRight.flipHorizontal = true
+// #endregion
+
 const heroAnimations = {
     idle,
     idleRight,
     jump,
     jumpRight,
+    run,
+    runRight,
 }
 
 export const animationMap = {
     IDLE: [idle, idleRight],
     JUMP: [jump, jumpRight],
+    RUN: [run, runRight],
 }
 
 export default heroAnimations

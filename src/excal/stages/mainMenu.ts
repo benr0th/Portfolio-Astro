@@ -1,7 +1,7 @@
 import * as ex from "excalibur";
 import { Images } from "../resources";
 import { eyeSpriteSheet } from "../actors/Hero/animations";
-import { portalRoom } from "./gameDev";
+import { GameDev } from "./gameDev";
 
 const ui = document.getElementById("ui");
 let selectedMenuItem: stageSelector;
@@ -217,7 +217,8 @@ export class MainMenu extends ex.Scene {
     for (const item of labelItems) {
       this.engine.add(item);
     }
-    this.engine.add('gameDev', new portalRoom)
+    
+    this.engine.add('gameDev', new GameDev)
     const codingStage = new stageSelector(401, 88, "webDev");
     const gameDevStage = new stageSelector(147, 288, "gameDev");
     const bioStage = new stageSelector(401, 288, "bio");

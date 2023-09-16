@@ -14,10 +14,13 @@ export class Floor extends ex.Actor {
             anchor: ex.vec(0, 0),
             collider: ex.Shape.Box(SIZE * cols, SIZE * rows, ex.vec(0, 0)),
             collisionType: ex.CollisionType.Fixed,
-            color: ex.Color.Black,
+            color: ex.Color.Green,
+            width: SIZE * cols,
+            height: SIZE * rows,
         })
 
-        this.graphics.opacity = 1;
+        this.graphics.opacity = 0;
         this.isFloor = true;
+        this.z = 20
     }
 }

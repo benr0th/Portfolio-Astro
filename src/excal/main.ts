@@ -16,7 +16,7 @@ const game = new ex.Engine({
     backgroundColor: ex.Color.fromHex('#2131ef'),
 })
 
-ex.Physics.acc = new ex.Vector(0, 1500)
+ex.Physics.acc = new ex.Vector(0, 1600)
 
 game.add('titleScreen', new TitleScreen)
 game.add('mainMenu', new MainMenu)
