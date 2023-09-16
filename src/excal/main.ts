@@ -20,8 +20,8 @@ ex.Physics.acc = new ex.Vector(0, 1600)
 
 game.add('titleScreen', new TitleScreen)
 game.add('mainMenu', new MainMenu)
-// game.goToScene('titleScreen')
-game.goToScene('mainMenu')
+game.goToScene('titleScreen')
+// game.goToScene('mainMenu')
 
 async function waitForFontLoad(font: string, timeout = 2000, interval = 100) {
     return new Promise((resolve, reject) => {
