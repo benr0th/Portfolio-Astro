@@ -23,12 +23,14 @@ game.add('mainMenu', new MainMenu)
 game.goToScene('titleScreen')
 // game.goToScene('mainMenu')
 
+let font_file = new FontFace('MMRock9', 'url(/fonts/MMRock9.woff)');
+
 async function waitForFontLoad(font: string, timeout = 2000, interval = 100) {
     return new Promise((resolve, reject) => {
       // repeatedly poll check
       const poller = setInterval(async () => {
         try {
-          await document.fonts.load(font);
+          await font_file.load();
         } catch (err) {
           reject(err);
         }
