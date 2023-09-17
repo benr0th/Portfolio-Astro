@@ -34,7 +34,7 @@ async function waitForFontLoad(font: string, timeout = 2000, interval = 100) {
         } catch (err) {
           reject(err);
         }
-        if (document.fonts.check(font)) {
+        if (font_file.status === 'loaded') {
           clearInterval(poller);
           resolve(true);
         }
