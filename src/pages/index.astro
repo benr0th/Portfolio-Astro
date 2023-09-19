@@ -16,13 +16,15 @@ const stageSelect =
       <div
         class="game-container w-full sm:h-[850px] h-full flex justify-center items-center"
       >
-        <canvas id="game"></canvas>
-        <div id="ui"></div>
+        <div id="joystick-zone" class="absolute w-[40%] h-[40%]">
       </div>
-      <script src="/src/excal/main.ts"></script>
+      <canvas id="game"></canvas>
+      <div id="ui"></div>
     </main>
+    <script src="/src/excal/main.ts"></script>
   </Layout>
 </div>
+
 <style>
   @import "../styles/styles.scss";
 </style>

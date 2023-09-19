@@ -17,4 +17,8 @@ export class DirectionQueue {
     remove(dir: string) {
         this.heldDirections = this.heldDirections.filter((d) => d !== dir);
     }
+
+    clear() {
+        this.heldDirections = [];
+    }
 }

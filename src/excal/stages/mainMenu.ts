@@ -1,16 +1,18 @@
-import * as ex from "excalibur";
-import { Images } from "../resources";
-import { eyeSpriteSheet } from "../actors/Hero/animations";
-import { GameDev } from "./gameDev";
+import * as ex from "excalibur"
+import { Images } from "../resources"
+import { eyeSpriteSheet } from "../actors/Hero/animations"
+import { GameDev } from "./gameDev"
+import { staticJoystick } from "../main"
 
-const ui = document.getElementById("ui");
-let selectedMenuItem: stageSelector;
-let menuItems: stageSelector[][];
+const ui = document.getElementById("ui")
+let selectedMenuItem: stageSelector
+let menuItems: stageSelector[][]
 // Initial selected menu item index
-let selectedMenuItemIndex = [1, 1];
-let effect: selectEffect | null = null;
+let selectedMenuItemIndex = [1, 1]
+let effect: selectEffect | null = null
 // Initialize with invalid indices
-let prevSelectedItemIndex = [-1, -1];
+let prevSelectedItemIndex = [-1, -1]
+let joystickSelected = false
 
 class stageLabel extends ex.Label {
   constructor(x: number, y: number, text: string) {
@@ -26,14 +28,19 @@ class stageLabel extends ex.Label {
         textAlign: ex.TextAlign.Center,
         quality: 5,
       }),
-    });
+    })
   }
 }
 
 class stageSelector extends ex.Actor {
-  selectedScene: string;
-  spriteToUse: ex.ImageSource;
-  constructor(x: number, y: number, selectedScene: string, spriteToUse: ex.ImageSource) {
+  selectedScene: string
+  spriteToUse: ex.ImageSource
+  constructor(
+    x: number,
+    y: number,
+    selectedScene: string,
+    spriteToUse: ex.ImageSource
+  ) {
     super({
       x,
       y,
@@ -41,17 +48,17 @@ class stageSelector extends ex.Actor {
       height: 147,
       color: ex.Color.Transparent,
       scale: new ex.Vector(0.75, 0.75),
-    });
+    })
 
-    this.selectedScene = selectedScene;
-    this.spriteToUse = spriteToUse;
+    this.selectedScene = selectedScene
+    this.spriteToUse = spriteToUse
   }
 
   onInitialize(engine: ex.Engine): void {
     this.on("pointerup", () => {
       engine.goToScene(this.selectedScene)
-      console.log(`go to ${this.selectedScene}`);
-    });
+      console.log(`go to ${this.selectedScene}`)
+    })
 
     // this.graphics.use(this.spriteToUse.toSprite())
   }
@@ -63,7 +70,7 @@ class selectEffect extends ex.Actor {
       x,
       y,
       anchor: ex.vec(0, 0),
-    });
+    })
   }
 
   onInitialize(engine: ex.Engine): void {
@@ -106,21 +113,21 @@ class selectEffect extends ex.Actor {
           pos: ex.vec(30, 90),
         },
       ],
-    });
+    })
     const blankGraphic = new ex.Line({
       start: ex.vec(0, 0),
       end: ex.vec(0, 0),
       color: ex.Color.Transparent,
       thickness: 0,
-    });
+    })
     const selectAnim = new ex.Animation({
       frames: [
         { graphic: lineGraphic, duration: 133 },
         { graphic: blankGraphic, duration: 133 },
       ],
       strategy: ex.AnimationStrategy.Loop,
-    });
-    this.graphics.use(selectAnim);
+    })
+    this.graphics.use(selectAnim)
   }
 }
 
@@ -133,144 +140,143 @@ class movingEyes extends ex.Actor {
       height: 31,
       scale: ex.vec(3.2, 3.2),
       anchor: ex.vec(0, 0),
-    });
+    })
   }
 
   onInitialize(_engine: ex.Engine): void {
-    this.graphics.use(eyeSpriteSheet.sprites[4]);
+    this.graphics.use(eyeSpriteSheet.sprites[4])
   }
 
   update(engine: ex.Engine, delta: number): void {
-    super.update(engine, delta);
+    super.update(engine, delta)
     switch (selectedMenuItemIndex[0]) {
       case 0:
         switch (selectedMenuItemIndex[1]) {
           case 0:
-            this.graphics.use(eyeSpriteSheet.sprites[0]);
-            break;
+            this.graphics.use(eyeSpriteSheet.sprites[0])
+            break
           case 1:
-            this.graphics.use(eyeSpriteSheet.sprites[1]);
-            break;
+            this.graphics.use(eyeSpriteSheet.sprites[1])
+            break
           case 2:
-            this.graphics.use(eyeSpriteSheet.sprites[2]);
-            break;
+            this.graphics.use(eyeSpriteSheet.sprites[2])
+            break
         }
-        break;
+        break
       case 1:
         switch (selectedMenuItemIndex[1]) {
           case 0:
-            this.graphics.use(eyeSpriteSheet.sprites[6]);
-            break;
+            this.graphics.use(eyeSpriteSheet.sprites[6])
+            break
           case 1:
-            this.graphics.use(eyeSpriteSheet.sprites[4]);
-            break;
+            this.graphics.use(eyeSpriteSheet.sprites[4])
+            break
           case 2:
-            this.graphics.use(eyeSpriteSheet.sprites[8]);
-            break;
+            this.graphics.use(eyeSpriteSheet.sprites[8])
+            break
         }
-        break;
+        break
       case 2:
         switch (selectedMenuItemIndex[1]) {
           case 0:
-            this.graphics.use(eyeSpriteSheet.sprites[3]);
-            break;
+            this.graphics.use(eyeSpriteSheet.sprites[3])
+            break
           case 1:
-            this.graphics.use(eyeSpriteSheet.sprites[7]);
-            break;
+            this.graphics.use(eyeSpriteSheet.sprites[7])
+            break
           case 2:
-            this.graphics.use(eyeSpriteSheet.sprites[5]);
-            break;
+            this.graphics.use(eyeSpriteSheet.sprites[5])
+            break
         }
-        break;
+        break
       default:
-        this.graphics.use(eyeSpriteSheet.sprites[4]);
-        break;
+        this.graphics.use(eyeSpriteSheet.sprites[4])
+        break
     }
   }
 }
 
 export class MainMenu extends ex.Scene {
   onActivate(_context: ex.SceneActivationContext<unknown>): void {
-    ui?.classList.add("mainMenu");
+    ui?.classList.add("mainMenu")
 
-    const startButton = document.createElement("button");
-    startButton.className = "button button--webdev";
+    const startButton = document.createElement("button")
+    startButton.className = "button button--webdev"
     // startButton.innerText = 'WEB DEV'
     startButton.onclick = () => {
       // this.engine.goToScene('webDev')
-      console.log("go to web dev");
-    };
-    ui?.appendChild(startButton);
+      console.log("go to web dev")
+    }
+    ui?.appendChild(startButton)
   }
 
   onInitialize(_engine: ex.Engine): void {
-    this.engine.add(new StageSelect);
-    this.engine.add(new movingEyes);
+    this.engine.add(new StageSelect())
+    this.engine.add(new movingEyes())
 
-    const codingLabel = new stageLabel(400, 195, "CODING");
-    const gameDevLabel = new stageLabel(150, 395, "GAME DEV");
-    const bioLabel = new stageLabel(400, 395, "ABOUT ME");
-    const editingLabel = new stageLabel(650, 395, "EDITING");
+    const codingLabel = new stageLabel(400, 195, "CODING")
+    const gameDevLabel = new stageLabel(150, 395, "GAME DEV")
+    const bioLabel = new stageLabel(400, 395, "ABOUT ME")
+    const editingLabel = new stageLabel(650, 395, "EDITING")
 
-    const labelItems = [codingLabel, gameDevLabel, bioLabel, editingLabel];
+    const labelItems = [codingLabel, gameDevLabel, bioLabel, editingLabel]
 
     for (const item of labelItems) {
-      this.engine.add(item);
+      this.engine.add(item)
     }
-    
-    this.engine.add('gameDev', new GameDev)
-    const codingStage = new stageSelector(401, 88, "webDev");
-    const gameDevStage = new stageSelector(147, 288, "gameDev");
-    const bioStage = new stageSelector(401, 288, "bio");
-    const editingStage = new stageSelector(653, 288, "editing");
-    const placeHolder1 = new stageSelector(147, 88, "placeHolder1");
-    const placeHolder2 = new stageSelector(653, 88, "placeHolder2");
-    const placeHolder3 = new stageSelector(147, 499, "placeHolder3");
-    const placeHolder4 = new stageSelector(401, 499, "placeHolder4");
-    const placeHolder5 = new stageSelector(653, 499, "placeHolder5");
 
-    selectedMenuItem = bioStage;
+    this.engine.add("gameDev", new GameDev())
+    const codingStage = new stageSelector(401, 88, "webDev")
+    const gameDevStage = new stageSelector(147, 288, "gameDev")
+    const bioStage = new stageSelector(401, 288, "bio")
+    const editingStage = new stageSelector(653, 288, "editing")
+    const placeHolder1 = new stageSelector(147, 88, "placeHolder1")
+    const placeHolder2 = new stageSelector(653, 88, "placeHolder2")
+    const placeHolder3 = new stageSelector(147, 499, "placeHolder3")
+    const placeHolder4 = new stageSelector(401, 499, "placeHolder4")
+    const placeHolder5 = new stageSelector(653, 499, "placeHolder5")
+
+    selectedMenuItem = bioStage
     // Default hover index
-    let hoverIndex = [-1, -1];
+    let hoverIndex = [-1, -1]
 
     menuItems = [
       [placeHolder1, codingStage, placeHolder2],
       [gameDevStage, bioStage, editingStage],
-      [placeHolder3, placeHolder4, placeHolder5]
-    ];
+      [placeHolder3, placeHolder4, placeHolder5],
+    ]
 
     // Function to handle menu item selection
     function handleMenuItemSelection() {
-      console.log(`Selected: ${selectedMenuItem.selectedScene}`);
+      console.log(`Selected: ${selectedMenuItem.selectedScene}`)
       // Perform the action associated with the selected menu item here
     }
 
     for (let i = 0; i < menuItems.length; i++) {
-      const row = menuItems[i];
+      const row = menuItems[i]
 
       for (let j = 0; j < row.length; j++) {
-        const item = row[j];
+        const item = row[j]
 
         item.on("pointerenter", () => {
-          selectedMenuItemIndex = [i, j];
-          hoverIndex = [i, j];
-        });
+          selectedMenuItemIndex = [i, j]
+          hoverIndex = [i, j]
+        })
 
         item.on("pointerleave", () => {
-          hoverIndex = [-1, -1];
-        });
+          hoverIndex = [-1, -1]
+        })
 
-        this.engine.add(item);
+        this.engine.add(item)
       }
     }
-
   }
 
   update(engine: ex.Engine, delta: number): void {
-    super.update(engine, delta);
-    
+    super.update(engine, delta)
+
     selectedMenuItem =
-      menuItems[selectedMenuItemIndex[0]][selectedMenuItemIndex[1]];
+      menuItems[selectedMenuItemIndex[0]][selectedMenuItemIndex[1]]
 
     // Check if the selected item has changed
     if (
@@ -279,64 +285,89 @@ export class MainMenu extends ex.Scene {
     ) {
       // Remove the previous effect if it exists
       if (effect) {
-        engine.remove(effect);
-        effect = null;
+        engine.remove(effect)
+        effect = null
       }
       // Update colors based on the new selected item
       for (let i = 0; i < menuItems.length; i++) {
-        const row = menuItems[i];
+        const row = menuItems[i]
 
         for (let j = 0; j < row.length; j++) {
-          const item = row[j];
+          const item = row[j]
           if (selectedMenuItem === item) {
             if (!effect) {
               if (selectedMenuItemIndex[0] === 0) {
-                effect = new selectEffect(item.pos.x - 60, item.pos.y - 30);
+                effect = new selectEffect(item.pos.x - 60, item.pos.y - 30)
               } else if (selectedMenuItemIndex[0] === 1) {
-                effect = new selectEffect(item.pos.x - 60, item.pos.y - 27);
+                effect = new selectEffect(item.pos.x - 60, item.pos.y - 27)
               } else if (selectedMenuItemIndex[0] === 2) {
-                effect = new selectEffect(item.pos.x - 60, item.pos.y - 35);
+                effect = new selectEffect(item.pos.x - 60, item.pos.y - 35)
               }
-              engine.add(effect!);
+              engine.add(effect!)
             }
           }
         }
       }
 
       // Update the previous selected item indices
-      prevSelectedItemIndex = selectedMenuItemIndex.slice();
+      prevSelectedItemIndex = selectedMenuItemIndex.slice()
     }
 
-    const [row, column] = selectedMenuItemIndex;
+    const [row, column] = selectedMenuItemIndex
     if (engine.input.keyboard.wasPressed(ex.Keys.Up)) {
-      selectedMenuItemIndex = [Math.max(0, row - 1), column];
+      selectedMenuItemIndex = [Math.max(0, row - 1), column]
     }
 
     if (engine.input.keyboard.wasPressed(ex.Keys.Down)) {
-      selectedMenuItemIndex = [Math.min(menuItems.length - 1, row + 1), column];
+      selectedMenuItemIndex = [Math.min(menuItems.length - 1, row + 1), column]
     }
 
     if (engine.input.keyboard.wasPressed(ex.Keys.Left)) {
-      selectedMenuItemIndex = [row, Math.max(0, column - 1)];
+      selectedMenuItemIndex = [row, Math.max(0, column - 1)]
     }
 
     if (engine.input.keyboard.wasPressed(ex.Keys.Right)) {
       selectedMenuItemIndex = [
         row,
         Math.min(menuItems[row].length - 1, column + 1),
-      ];
+      ]
     }
 
     if (engine.input.keyboard.wasPressed(ex.Keys.Enter)) {
       // Handle action for the selected menu item
-      engine.goToScene(selectedMenuItem.selectedScene);
-      console.log(`Selected: ${selectedMenuItem.selectedScene}`);
+      engine.goToScene(selectedMenuItem.selectedScene)
+      console.log(`Selected: ${selectedMenuItem.selectedScene}`)
     }
+
+    // TODO - only trigger one menu movement per joystick event
+    staticJoystick.on("move", (evt: any, data: any) => {
+        if (data.direction /* && !joystickSelected */) {
+          if (data.direction.angle === "up") {
+            selectedMenuItemIndex = [Math.max(0, row - 1), column]
+          }
+          if (data.direction.angle === "down") {
+            selectedMenuItemIndex = [
+              Math.min(menuItems.length - 1, row + 1),
+              column,
+            ]
+          }
+          if (data.direction.angle === "left") {
+            selectedMenuItemIndex = [row, Math.max(0, column - 1)]
+          }
+          if (data.direction.angle === "right") {
+            selectedMenuItemIndex = [
+              row,
+              Math.min(menuItems[row].length - 1, column + 1),
+            ]
+          }
+        }
+    })
+
   }
 
   onDeactivate(): void {
-    ui?.classList.remove("mainMenu");
-    ui!.innerHTML = "";
+    ui?.classList.remove("mainMenu")
+    ui!.innerHTML = ""
   }
 }
 
@@ -349,10 +380,10 @@ export class StageSelect extends ex.Actor {
       width: 800,
       height: 600,
       scale: new ex.Vector(0.82, 0.82),
-    });
+    })
   }
 
   onInitialize(_engine: ex.Engine): void {
-    this.graphics.use(Images.stageSelectImg.toSprite());
+    this.graphics.use(Images.stageSelectImg.toSprite())
   }
 }
