@@ -101,10 +101,13 @@ staticJoystick.on("end" as any, () => {
 const jumpButton = document.getElementById("a-button") as HTMLElement
 // const attackButton = document.getElementById("b-button") as HTMLElement
 
-jumpButton.addEventListener("click", () => {
+jumpButton.addEventListener("touchstart", () => {
   game.input.keyboard.triggerEvent("down", ex.Keys.Z)
-  game.input.keyboard.triggerEvent("up", ex.Keys.Z)
   game.input.keyboard.triggerEvent("down", ex.Keys.Enter)
+})
+
+jumpButton.addEventListener("touchend", () => {
+  game.input.keyboard.triggerEvent("up", ex.Keys.Z)
   game.input.keyboard.triggerEvent("up", ex.Keys.Enter)
 })
 
