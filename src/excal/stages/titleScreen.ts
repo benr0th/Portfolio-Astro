@@ -119,15 +119,15 @@ export class TitleScreen extends ex.Scene {
       prevSelectedItemIndex = selectedItemIndex
     }
 
-    if (engine.input.keyboard.wasReleased(ex.Keys.Up)) {
+    if (engine.input.keyboard.wasPressed(ex.Keys.Up)) {
       selectedItemIndex = Math.max(selectedItemIndex - 1, 0)
     }
 
-    if (engine.input.keyboard.wasReleased(ex.Keys.Down)) {
+    if (engine.input.keyboard.wasPressed(ex.Keys.Down)) {
       selectedItemIndex = Math.min(selectedItemIndex + 1, menuItems.length - 1)
     }
 
-    if (engine.input.keyboard.wasReleased(ex.Keys.Enter)) {
+    if (engine.input.keyboard.wasPressed(ex.Keys.Enter)) {
       menuItems[selectedItemIndex].events.emit("pointerup")
     }
 

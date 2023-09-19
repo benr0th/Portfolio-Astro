@@ -86,22 +86,22 @@ export class Hero extends ex.Actor {
       }
     })
 
-    staticJoystick.on("move" as any, (evt: any, data: any) => {
-      if (data.direction) {
-        if (data.direction.angle === "left") {
-          this.directionQueue.add(data.direction.angle.toUpperCase())
-          this.directionQueue.remove("RIGHT")
-        }
-        if (data.direction.angle === "right") {
-          this.directionQueue.add(data.direction.angle.toUpperCase())
-          this.directionQueue.remove("LEFT")
-        }
-      }
-    })
+    // staticJoystick.on("move" as any, (evt: any, data: any) => {
+    //   if (data.direction) {
+    //     if (data.direction.angle === "left") {
+    //       this.directionQueue.add(data.direction.angle.toUpperCase())
+    //       this.directionQueue.remove("RIGHT")
+    //     }
+    //     if (data.direction.angle === "right") {
+    //       this.directionQueue.add(data.direction.angle.toUpperCase())
+    //       this.directionQueue.remove("LEFT")
+    //     }
+    //   }
+    // })
 
-    staticJoystick.on("end" as any, () => {
-      this.directionQueue.clear()
-    })
+    // staticJoystick.on("end" as any, () => {
+    //   this.directionQueue.clear()
+    // })
 
     // Sync direction to keyboard input
     this.spriteDirection =

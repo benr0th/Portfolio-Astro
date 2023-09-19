@@ -340,28 +340,28 @@ export class MainMenu extends ex.Scene {
     }
 
     // TODO - only trigger one menu movement per joystick event
-    staticJoystick.on("move", (evt: any, data: any) => {
-        if (data.direction /* && !joystickSelected */) {
-          if (data.direction.angle === "up") {
-            selectedMenuItemIndex = [Math.max(0, row - 1), column]
-          }
-          if (data.direction.angle === "down") {
-            selectedMenuItemIndex = [
-              Math.min(menuItems.length - 1, row + 1),
-              column,
-            ]
-          }
-          if (data.direction.angle === "left") {
-            selectedMenuItemIndex = [row, Math.max(0, column - 1)]
-          }
-          if (data.direction.angle === "right") {
-            selectedMenuItemIndex = [
-              row,
-              Math.min(menuItems[row].length - 1, column + 1),
-            ]
-          }
-        }
-    })
+    // staticJoystick.on("move", (evt: any, data: any) => {
+    //     if (data.direction /* && !joystickSelected */) {
+    //       if (data.direction.angle === "up") {
+    //         selectedMenuItemIndex = [Math.max(0, row - 1), column]
+    //       }
+    //       if (data.direction.angle === "down") {
+    //         selectedMenuItemIndex = [
+    //           Math.min(menuItems.length - 1, row + 1),
+    //           column,
+    //         ]
+    //       }
+    //       if (data.direction.angle === "left") {
+    //         selectedMenuItemIndex = [row, Math.max(0, column - 1)]
+    //       }
+    //       if (data.direction.angle === "right") {
+    //         selectedMenuItemIndex = [
+    //           row,
+    //           Math.min(menuItems[row].length - 1, column + 1),
+    //         ]
+    //       }
+    //     }
+    // })
 
   }
 

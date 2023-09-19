@@ -49,65 +49,73 @@ await waitForFontLoad()
 
 export let staticJoystick = nipplejs.create({
   zone: document.getElementById("joystick-zone") as HTMLElement,
-  mode: "static",
-  position: { left: "10%", top: "95%" },
+  mode: "dynamic",
+  // position: { left: "25%", top: "75%" },
   color: "white",
   shape: "circle",
-  size: 50,
+  size: 100,
 })
 
 // #region Virtual Joystick
-// document.addEventListener("keydown", (e) => {
-//   if (e.key === "ArrowUp") {
-//     // game.input.keyboard.triggerEvent("down", ex.Keys.ArrowUp)
-//     console.log("up")
-//   }
-//   if (e.key === "ArrowDown") {
-//     // game.input.keyboard.triggerEvent("down", ex.Keys.ArrowDown)
-//     console.log("down")
-//   }
-// })
+const arrowKeys = [ex.Keys.ArrowUp, ex.Keys.ArrowDown, ex.Keys.ArrowLeft, ex.Keys.ArrowRight]
+
+function resetKeyOnJoystickMove(direction: ex.Keys) {
+  for (const key of arrowKeys) {
+    if (key !== direction) {
+      game.input.keyboard.triggerEvent("up", key)
+    }
+  }
+}
 
 staticJoystick.on("move" as any, (evt: any, data: any) => {
   if (data.direction) {
-    if (data.direction.angle === "left") {
-      document.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowLeft" }))
-      game.input.keyboard.triggerEvent("up", ex.Keys.ArrowLeft)
+    switch (data.direction.angle) {
+      case "up":
+        game.input.keyboard.triggerEvent("down", ex.Keys.ArrowUp)
+        resetKeyOnJoystickMove(ex.Keys.ArrowUp)
+        break
+      case "down":
+        game.input.keyboard.triggerEvent("down", ex.Keys.ArrowDown)
+        resetKeyOnJoystickMove(ex.Keys.ArrowDown)
+        break
+      case "left":
+        game.input.keyboard.triggerEvent("down", ex.Keys.ArrowLeft)
+        resetKeyOnJoystickMove(ex.Keys.ArrowLeft)
+        break
+      case "right":
+        game.input.keyboard.triggerEvent("down", ex.Keys.ArrowRight)
+        resetKeyOnJoystickMove(ex.Keys.ArrowRight)
+        break
     }
-    if (data.direction.angle === "right") {
-      document.dispatchEvent(
-        new KeyboardEvent("keydown", { key: "ArrowRight" })
-      )
-      game.input.keyboard.triggerEvent("up", ex.Keys.ArrowRight)
-    }
-    if (data.direction.angle === "up") {
-      document.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowUp" }))
-      game.input.keyboard.triggerEvent("up", ex.Keys.ArrowUp)
-    }
-    if (data.direction.angle === "down") {
-      document.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown" }))
-      game.input.keyboard.triggerEvent("up", ex.Keys.ArrowDown)
-    }
+  }
+})
+
+staticJoystick.on("end" as any, () => {
+  for (const key of arrowKeys) {
+    game.input.keyboard.triggerEvent("up", key)
   }
 })
 // #endregion
 
-const button = new ex.Actor({
-  x: 600,
-  y: 450,
-  width: 50,
-  height: 50,
-  color: ex.Color.Blue,
-  z: 10,
-})
+// #region Virtual Buttons
+const jumpButton = document.getElementById("a-button") as HTMLElement
+// const attackButton = document.getElementById("b-button") as HTMLElement
 
-button.graphics.use(
-  new ex.Circle({ radius: 50, color: ex.Color.Green, lineWidth: 5 })
-)
-button.on("pointerup", () => {
+jumpButton.addEventListener("click", () => {
+  game.input.keyboard.triggerEvent("down", ex.Keys.Z)
+  game.input.keyboard.triggerEvent("up", ex.Keys.Z)
+  game.input.keyboard.triggerEvent("down", ex.Keys.Enter)
   game.input.keyboard.triggerEvent("up", ex.Keys.Enter)
 })
-game.add(button)
+
+// attackButton.addEventListener("touchstart", () => {
+//   game.input.keyboard.triggerEvent("down", ex.Keys.X)
+// })
+
+// attackButton.addEventListener("touchend", () => {
+//   game.input.keyboard.triggerEvent("up", ex.Keys.X)
+// })
+// game.input.keyboard.triggerEvent("down", ex.Keys.Enter)
 
 game.start(loader).then(() => {
   // Start the game

@@ -1,9 +1,5 @@
 ---
 import Layout from "@/layouts/Layout.astro"
-import Card from "@components/Card.astro"
-
-const stageSelect =
-  "../mega_man_stage_select_template_by_evilasio2_deztn1x-pre.png"
 ---
 
 <input type="checkbox" id="switch" class="" />
@@ -16,8 +12,10 @@ const stageSelect =
       <div
         class="game-container w-full sm:h-[850px] h-full flex justify-center items-center"
       >
-        <div id="joystick-zone" class="absolute w-[40%] h-[40%]">
-      </div>
+        <div id="joystick-zone" class="absolute w-[50%] h-[100vh] left-0"></div>
+        <div id="button-zone" class="absolute w-[50%] h-[100vh] right-0">
+          <div id="a-button" class="absolute w-[50%] h-[50%] top-[75%] right-[25%]">BUTTON</div>
+        </div>
       <canvas id="game"></canvas>
       <div id="ui"></div>
     </main>
