@@ -4,7 +4,7 @@
 /* Webfont CSS setup for MMRock9 by Caveras */
 @font-face {
   font-family: "MMRock9";
-  src: url("MMRock9.eot");
+  src: url("/fonts/MMRock9.eot");
   src:
     url("/fonts/MMRock9.eot?#iefix") format("embedded-opentype"),
     url("/fonts/MMRock9.woff") format("woff"),
@@ -126,8 +126,8 @@ h1 {
   animation-fill-mode: forwards;
 }
 #switch ~ .crt {
-    // animation: turn-on 4s linear;
-    // animation-fill-mode: forwards;
+  // animation: turn-on 4s linear;
+  // animation-fill-mode: forwards;
 }
 
 .overlay {
@@ -156,5 +156,5 @@ h1 {
   font-size: 1.3rem;
   color: white;
   z-index: 2;
-  font-family: 'MMRock9', 'Player Start 2P', sans-serif;
+  font-family: "MMRock9", "Player Start 2P", sans-serif;
 }

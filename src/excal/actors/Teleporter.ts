@@ -1,56 +1,85 @@
-import * as ex from "excalibur"
-import { Hero } from "./Hero/hero"
+import * as ex from "excalibur";
+import { Hero } from "./Hero/hero";
 
-let heroTouching = false
+let heroTouching = false;
+let pointerTouching = false;
 
 export class Teleporter extends ex.Actor {
-  constructor(x: number, y: number, width: number, height: number) {
+  projectName: string;
+  projectURL: string;
+  constructor(x: number, y: number, projectName: string, projectURL: string) {
     super({
       pos: ex.vec(x, y),
-      width: width,
-      height: height,
-      color: ex.Color.Orange,
+      width: 100,
+      height: 90,
+      color: ex.Color.Red,
       z: 10,
       collisionType: ex.CollisionType.Passive,
-    })
+    });
 
-    this.graphics.opacity = 0
+    this.projectName = projectName;
+    this.projectURL = projectURL;
+    this.graphics.opacity = 0;
 
     this.on("collisionstart", (ev) => {
       if (ev.other instanceof Hero) {
-        const projectLabel = new ex.Label({
-          text: "Gravibowl",
-          pos: ex.vec(this.pos.x - 80, this.pos.y - 110),
-          color: ex.Color.White,
-          font: new ex.Font({
-            size: 20,
-            family: "MMRock9",
-            shadow: {
-              blur: 0,
-              offset: ex.vec(5, 5),
-              color: ex.Color.Black,
-            },
-          }),
-          z: 100,
-        })
-
-        heroTouching = true
-        this.scene.add(projectLabel)
+        heroTouching = true;
+        this.scene.add(
+          new ProjectLabel(this.pos.x - 80, this.pos.y - 80, projectName)
+        );
       }
-    })
+    });
 
     this.update = (engine, delta) => {
       if (heroTouching && engine.input.keyboard.wasPressed(ex.Keys.Up)) {
-        window.open('https://play.google.com/store/apps/details?id=com.BRothStudios.Gravibowl&hl=en_US&gl=US', '_blank')
+        window.open(projectURL, "_blank");
       }
-    }
+    };
 
     this.on("collisionend", (ev) => {
       if (ev.other instanceof Hero) {
-        this.scene.actors.find((a) => a instanceof ex.Label)?.kill()
-        heroTouching = false
+        this.scene.actors.find((a) => a instanceof ex.Label)?.kill();
+        heroTouching = false;
       }
-    })
-  }
+    });
 
+    this.on("pointerenter", () => {
+      if (heroTouching) return;
+      this.scene.add(
+        new ProjectLabel(this.pos.x - 80, this.pos.y - 80, projectName)
+      );
+      pointerTouching = true;
+    });
+
+    this.on("pointerleave", () => {
+      if (heroTouching) return;
+      this.scene.actors.find((a) => a instanceof ex.Label)?.kill();
+      pointerTouching = false;
+    });
+
+    this.on("pointerup", () => {
+      window.open(projectURL, "_blank");
+    });
+  }
+}
+
+class ProjectLabel extends ex.Label {
+  constructor(x: number, y: number, text: string) {
+    super({
+      pos: ex.vec(x, y),
+      color: ex.Color.White,
+      font: new ex.Font({
+        size: 20,
+        family: "MMRock9",
+        shadow: {
+          blur: 0,
+          offset: ex.vec(5, 5),
+          color: ex.Color.Black,
+        },
+      }),
+      z: 100,
+    });
+
+    this.text = text;
+  }
 }

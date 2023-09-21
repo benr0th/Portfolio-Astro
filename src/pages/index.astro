@@ -1,8 +1,8 @@
 ---
-import Layout from "@/layouts/Layout.astro"
+import Layout from "@/layouts/Layout.astro";
 ---
 
-<input type="checkbox" id="switch" class="" />
+<!-- <input type="checkbox" id="switch" class="" /> -->
 <div class="crt">
   <Layout title="Ben Roth">
     <main>
@@ -10,19 +10,40 @@ import Layout from "@/layouts/Layout.astro"
       <!-- <img src={stageSelect} alt="stage select" class="stage-select" /> -->
       <!-- <p style="font-family: MMRock9, 'Press Start 2P', sans-serif">WEB DEV</p> -->
       <div
-        class="game-container w-full sm:h-[850px] h-full flex justify-center items-center"
+        class="game-container w-full h-[850px] flex justify-center items-center mt-10"
       >
-        <div id="joystick-zone" class="absolute w-[50%] h-[100vh] left-0"></div>
-        <div id="button-zone" class="absolute w-[50%] h-[100vh] right-0">
-          <div id="a-button" class="absolute w-[50%] h-[50%] top-[75%] right-[25%]">BUTTON</div>
+        <div id="joystick-zone" class="absolute w-[50%] h-[100vh] left-0 hidden"></div>
+        <div id="button-zone" class="absolute w-[50%] h-[100vh] right-0 hidden">
+          <img
+            src="/sprites/a-button.png"
+            id="a-button"
+            class="absolute w-[50px] h-[50px] top-[75%] right-[40%] hidden"
+          />
         </div>
-      <canvas id="game"></canvas>
-      <div id="ui"></div>
+        <canvas id="game"></canvas>
+        <div id="ui"></div>
+      </div>
+      <script src="/src/excal/main.ts"></script>
     </main>
-    <script src="/src/excal/main.ts"></script>
   </Layout>
+
+  <style>
+    @import "../styles/styles.scss";
+  </style>
 </div>
 
-<style>
-  @import "../styles/styles.scss";
-</style>
+<script>
+  // const switchEl = document.getElementById("switch");
+  // const crtEl = document.querySelector(".crt");
+  // const overlayEl = document.querySelector(".overlay");
+
+  // switchEl.addEventListener("change", () => {
+  //   if (switchEl.checked) {
+  //     crtEl.classList.add("crt-on");
+  //     overlayEl.classList.add("overlay-on");
+  //   } else {
+  //     crtEl.classList.remove("crt-on");
+  //     overlayEl.classList.remove("overlay-on");
+  //   }
+  // });
+</script>

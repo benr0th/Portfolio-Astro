@@ -51,48 +51,8 @@ export class GameDev extends ex.Scene {
     engine.add(hero)
     hero.z = 10
 
-    engine.add(new Teleporter(100, 180, 100, 24))
+    engine.add(new Teleporter(100, 475, 'Gravibowl', 'https://play.google.com/store/apps/details?id=com.BRothStudios.Gravibowl&hl=en_US&gl=US'))
 
-    const teleporterPointer = new ex.Actor({
-      pos: ex.vec(100, 130),
-      width: 100,
-      height: 100,
-      color: ex.Color.Transparent,
-      z: 10,
-      collisionType: ex.CollisionType.Passive,
-    })
-
-    teleporterPointer.on("pointerenter", () => {
-      const projectLabel = new ex.Label({
-        text: "Gravibowl",
-        pos: ex.vec(20, 70),
-        color: ex.Color.White,
-        font: new ex.Font({
-          size: 20,
-          family: "MMRock9",
-          shadow: {
-            blur: 0,
-            offset: ex.vec(5, 5),
-            color: ex.Color.Black,
-          },
-        }),
-        z: 100,
-      })
-      engine.add(projectLabel)
-    })
-
-    teleporterPointer.on("pointerleave", () => {
-      this.actors.find((a) => a instanceof ex.Label)?.kill()
-    })
-
-    teleporterPointer.on("pointerup", () => {
-      window.open(
-        "https://play.google.com/store/apps/details?id=com.BRothStudios.Gravibowl&hl=en_US&gl=US",
-        "_blank"
-      )
-    })
-
-    engine.add(teleporterPointer)
     engine.add(room)
   }
 }
