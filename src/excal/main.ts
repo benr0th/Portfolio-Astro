@@ -1,8 +1,11 @@
 import * as ex from "excalibur";
 import { loader } from "./resources.ts";
-import { StageSelect } from "./stages/mainMenu.ts";
+import { StageSelect } from "./stages/stageSelect.ts";
 import { TitleScreen } from "./stages/titleScreen.ts";
 import nipplejs from "nipplejs";
+import { Gravibowl } from "./levels/Gravibowl.ts";
+import { GameDev } from "./stages/gameDev.ts";
+import { Coding } from "./stages/coding.ts";
 
 const game = new ex.Engine({
   canvasElementId: "game",
@@ -16,12 +19,18 @@ const game = new ex.Engine({
   backgroundColor: ex.Color.fromHex("#2131ef"),
 });
 
-ex.Physics.acc = new ex.Vector(0, 1600);
+ex.Physics.acc = new ex.Vector(0, 2000);
 
 game.add("titleScreen", new TitleScreen());
 game.add("stageSelect", new StageSelect());
+game.add('gameDev', new GameDev)
+game.add('coding', new Coding)
 game.goToScene("titleScreen");
+
+// DEBUG ONLY
 // game.goToScene('stageSelect')
+// game.add('Gravibowl', new Gravibowl)
+// game.goToScene('Gravibowl')
 
 // Wait for font to load
 // Load font directly in this file, using CSS causes network error

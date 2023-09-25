@@ -19,8 +19,8 @@ export class Floor extends ex.Actor {
             height: SIZE * rows,
         })
 
-        this.graphics.opacity = 0;
+        this.graphics.opacity = 0.5;
         this.isFloor = true;
-        this.z = 20
+        this.z = 1
     }
 }

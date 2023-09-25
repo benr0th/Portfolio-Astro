@@ -8,17 +8,19 @@ interface RoomProps {
     floors: any;
     objects: any;
     limits: any;
+    scaleX: number;
+    scaleY: number;
 }
 
 export class Room extends ex.Actor {
     floors: any;
     objects: any;
     limits: any;
-    constructor({x, y, image, floors, objects, limits}: RoomProps) {
+    constructor({x, y, image, floors, objects, limits, scaleX, scaleY}: RoomProps) {
         super({
             anchor: ex.vec(0,0),
             pos: ex.vec(x, y),
-            scale: ex.vec(3.15, 2.7),
+            scale: ex.vec(scaleX, scaleY),
         })
 
         this.floors = floors;

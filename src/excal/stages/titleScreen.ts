@@ -54,7 +54,7 @@ export class TitleScreen extends ex.Scene {
 
     startButton.on("pointerup", () => {
       ex.AudioContextFactory.create().resume();
-      Sounds.CHOOSE.play(0.3).then(() => {
+      Sounds.CHOOSE.play(0.2).then(() => {
         engine.goToScene("stageSelect");
       });
     });

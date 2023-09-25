@@ -3,6 +3,7 @@ import { Images, Sounds } from "../resources";
 import { eyeSpriteSheet } from "../actors/Hero/animations";
 import { GameDev } from "./gameDev";
 import { staticJoystick } from "../main";
+import { Hero } from "../actors/Hero/hero";
 
 const ui = document.getElementById("ui");
 let selectedMenuItem: stageSelector;
@@ -57,10 +58,22 @@ class stageSelector extends ex.Actor {
     this.spriteScale = spriteScale;
   }
 
+  resetHero() {
+    this.scene.engine.currentScene.actors
+      .find((a) => a instanceof Hero)
+      ?.kill();
+    const hero = new Hero(400, 100);
+    if (this.scene !== this.scene.engine.currentScene)
+      this.scene.engine.add(hero);
+    hero.pos = ex.vec(400, 100);
+    hero.vel = ex.vec(0, 0);
+  }
+
   onInitialize(engine: ex.Engine): void {
     this.on("pointerup", () => {
-      Sounds.CHOOSE.play(0.3).then(() => {
+      Sounds.CHOOSE.play(0.2).then(() => {
         engine.goToScene(this.selectedScene);
+        this.resetHero();
         console.log(`go to ${this.selectedScene}`);
       });
     });
@@ -122,20 +135,9 @@ class selectEffect extends ex.Actor {
         },
       ],
     });
-    const blankGraphic = new ex.Line({
-      start: ex.vec(0, 0),
-      end: ex.vec(0, 0),
-      color: ex.Color.Transparent,
-      thickness: 0,
-    });
-    const selectAnim = new ex.Animation({
-      frames: [
-        { graphic: lineGraphic, duration: 133 },
-        { graphic: blankGraphic, duration: 133 },
-      ],
-      strategy: ex.AnimationStrategy.Loop,
-    });
-    this.graphics.use(selectAnim);
+
+    this.graphics.use(lineGraphic);
+    this.actions.blink(133, 133, Infinity);
   }
 }
 
@@ -213,7 +215,7 @@ export class StageSelect extends ex.Scene {
     // startButton.innerText = 'WEB DEV'
     startButton.onclick = () => {
       // this.engine.goToScene('webDev')
-      console.log("go to web dev");
+      console.log("go to coding");
     };
     ui?.appendChild(startButton);
   }
@@ -234,12 +236,12 @@ export class StageSelect extends ex.Scene {
     }
 
     // #region Stages
-    this.engine.add("gameDev", new GameDev());
+    // _engine.add("gameDev", new GameDev);
     const codingStage = new stageSelector(
       401,
       88,
-      "webDev",
-      Images.webDevImg,
+      "coding",
+      Images.codingImg,
       ex.vec(2, 2)
     );
     const gameDevStage = new stageSelector(
@@ -281,7 +283,7 @@ export class StageSelect extends ex.Scene {
       null
     );
     // #endregion
-    
+
     selectedMenuItem = bioStage;
     // Default hover index
     let hoverIndex = [-1, -1];
@@ -310,6 +312,15 @@ export class StageSelect extends ex.Scene {
         this.engine.add(item);
       }
     }
+  }
+
+  resetHero() {
+    this.engine.currentScene.actors.find((a) => a instanceof Hero)?.kill();
+    const hero = new Hero(400, 100);
+    if (this !== this.engine.currentScene)
+      this.engine.add(hero);
+    hero.pos = ex.vec(400, 100);
+    hero.vel = ex.vec(0, 0);
   }
 
   update(engine: ex.Engine, delta: number): void {
@@ -379,8 +390,9 @@ export class StageSelect extends ex.Scene {
 
     if (engine.input.keyboard.wasPressed(ex.Keys.Enter)) {
       // Handle action for the selected menu item
-      Sounds.CHOOSE.play(0.3).then(() => {
+      Sounds.CHOOSE.play(0.2).then(() => {
         engine.goToScene(selectedMenuItem.selectedScene);
+        this.resetHero();
         console.log(`Selected: ${selectedMenuItem.selectedScene}`);
       });
     }
@@ -394,7 +406,7 @@ export class StageSelect extends ex.Scene {
   }
 }
 
-export class StageSelectBG extends ex.Actor {
+class StageSelectBG extends ex.Actor {
   constructor() {
     super({
       anchor: ex.Vector.Zero,
