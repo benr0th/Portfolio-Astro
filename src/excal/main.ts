@@ -25,10 +25,10 @@ game.add("titleScreen", new TitleScreen());
 game.add("stageSelect", new StageSelect());
 game.add('gameDev', new GameDev)
 game.add('coding', new Coding)
-// game.goToScene("titleScreen");
+game.goToScene("titleScreen");
 
 // DEBUG ONLY
-game.goToScene('stageSelect')
+// game.goToScene('stageSelect')
 // game.goToScene('coding')
 
 // Wait for font to load
