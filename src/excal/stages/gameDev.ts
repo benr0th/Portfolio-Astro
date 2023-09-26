@@ -52,10 +52,30 @@ const room = new Room({
 export class GameDev extends ex.Scene {
   onInitialize(engine: ex.Engine) {
     engine.add("Gravibowl", new Gravibowl());
-    engine.add(new Teleporter(140, 485, "Gravibowl", "", "Gravibowl"));
-    engine.add(new Teleporter(400, 250, "", "", "stageSelect"))
-    engine.add(new TeleporterLight(135, 419));
+
+    this.addTeleporters();
+    this.addTeleporterGlass();
     engine.add(room);
+  }
+
+  addTeleporters() {
+    // Exit
+    this.engine.add(new Teleporter(400, 250, "", "", "stageSelect"))
+
+    // Levels
+    this.engine.add(new Teleporter(140, 485, "Gravibowl", "", "Gravibowl"));
+    this.engine.add(new TeleporterLight(135, 419));
+  }
+
+  addTeleporterGlass() {
+    this.engine.add(new TeleporterGlass(100, 90));
+    this.engine.add(new TeleporterGlass(100, 261));
+    this.engine.add(new TeleporterGlass(100, 435));
+    this.engine.add(new TeleporterGlass(300, 435));
+    this.engine.add(new TeleporterGlass(400, 435));
+    this.engine.add(new TeleporterGlass(600, 435));
+    this.engine.add(new TeleporterGlass(600, 261));
+    this.engine.add(new TeleporterGlass(600, 90));
   }
 }
 
@@ -71,5 +91,20 @@ class TeleporterLight extends ex.Actor {
     });
 
     this.actions.blink(133, 133, Infinity);
+  }
+}
+
+class TeleporterGlass extends ex.Actor {
+  constructor(x: number, y: number) {
+    super({
+      pos: ex.vec(x, y),
+      anchor: ex.vec(0, 0),
+      width: 31,
+      height: 32,
+      scale: ex.vec(3.13,2.7),
+      z: 2,
+    });
+
+    this.graphics.use(Images.mm3PortalGlass.toSprite())
   }
 }

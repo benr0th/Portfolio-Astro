@@ -1,21 +1,27 @@
 import * as ex from 'excalibur'
 
 const Images = {
+    // Hero sprites
     heroIdle: new ex.ImageSource('sprites/mmIdle.png'),
     heroJump: new ex.ImageSource('sprites/jump.png'),
     heroRun: new ex.ImageSource('sprites/mmRun.png'),
     heroTeleport: new ex.ImageSource('sprites/mmTeleport.png'),
 
+    // Backgrounds
     stageSelectImg: new ex.ImageSource('maps/stage_select.png'),
     titleScreenImg: new ex.ImageSource('maps/title_screen.png'),
-    titleScreenArrow: new ex.ImageSource('sprites/titleScreenArrow.png'),
-    heroEyes: new ex.ImageSource('sprites/mmEyes.png'),
-    controllerImg: new ex.ImageSource('sprites/XOne.png'),
-    codingImg: new ex.ImageSource('sprites/codingIcon.png'),
-    editingImg: new ex.ImageSource('sprites/clapperOpen.png'),
     mm3PortalRoom: new ex.ImageSource('maps/mm3PortalRoom.png'),
     mm3PortalBossRoom1: new ex.ImageSource('maps/mm3PortalBossRoom1.png'),
     mm6PortalRoom: new ex.ImageSource('maps/mm6PortalRoom.png'),
+    
+    // Misc sprites
+    titleScreenArrow: new ex.ImageSource('sprites/titleScreenArrow.png'),
+    heroEyes: new ex.ImageSource('sprites/mmEyes.png'),
+    mm3PortalGlass: new ex.ImageSource('sprites/mm3PortalGlass.png'),
+    controllerImg: new ex.ImageSource('sprites/XOne.png'),
+    codingImg: new ex.ImageSource('sprites/codingIcon.png'),
+    editingImg: new ex.ImageSource('sprites/clapperOpen.png'),
+
 }
 
 const Sounds = {

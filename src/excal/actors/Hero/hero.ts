@@ -6,7 +6,7 @@ import { staticJoystick } from "@/excal/main";
 
 // MOVING SPEEDS
 const WALKING_VELOCITY = 180;
-const JUMP_VELOCITY = -760;
+const JUMP_VELOCITY = -790;
 const LADDER_JUMP_VELOCITY = -200;
 const LADDER_CLIMB_VELOCITY = 100;
 const PAIN_PUSHBACK_VELOCITY = 50;
