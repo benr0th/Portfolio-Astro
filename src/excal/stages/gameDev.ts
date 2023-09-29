@@ -60,22 +60,29 @@ export class GameDev extends ex.Scene {
 
   addTeleporters() {
     // Exit
-    this.engine.add(new Teleporter(400, 250, "", "", "stageSelect"))
+    this.engine.add(new Teleporter(400, 230, "", "", "stageSelect"))
+    // this.engine.add(new ExitLight(388, 149))
 
     // Levels
-    this.engine.add(new Teleporter(140, 485, "Gravibowl", "", "Gravibowl"));
+    this.engine.add(new Teleporter(150, 480, "Gravibowl", "", "Gravibowl"));
     this.engine.add(new TeleporterLight(135, 419));
   }
 
   addTeleporterGlass() {
-    this.engine.add(new TeleporterGlass(100, 90));
-    this.engine.add(new TeleporterGlass(100, 261));
-    this.engine.add(new TeleporterGlass(100, 435));
-    this.engine.add(new TeleporterGlass(300, 435));
-    this.engine.add(new TeleporterGlass(400, 435));
-    this.engine.add(new TeleporterGlass(600, 435));
-    this.engine.add(new TeleporterGlass(600, 261));
-    this.engine.add(new TeleporterGlass(600, 90));
+    const positions = [
+      [100, 90],
+      [100, 261],
+      [100, 435],
+      [300, 435],
+      [400, 435],
+      [600, 435],
+      [600, 261],
+      [600, 90],
+    ];
+  
+    for (const [x, y] of positions) {
+      this.engine.add(new TeleporterGlass(x, y));
+    }
   }
 }
 
@@ -86,6 +93,21 @@ class TeleporterLight extends ex.Actor {
       anchor: ex.vec(0, 0),
       width: 31,
       height: 5,
+      color: ex.Color.Rose,
+      z: 1,
+    });
+
+    this.actions.blink(133, 133, Infinity);
+  }
+}
+
+class ExitLight extends ex.Actor {
+  constructor(x: number, y: number) {
+    super({
+      pos: ex.vec(x, y),
+      anchor: ex.vec(0, 0),
+      width: 25,
+      height: 6,
       color: ex.Color.Rose,
       z: 1,
     });

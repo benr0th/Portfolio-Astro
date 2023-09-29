@@ -51,6 +51,7 @@ class stageSelector extends ex.Actor {
       height: 147,
       color: ex.Color.Transparent,
       scale: new ex.Vector(0.75, 0.75),
+      z: -1
     });
 
     this.selectedScene = selectedScene;
@@ -71,10 +72,10 @@ class stageSelector extends ex.Actor {
 
   onInitialize(engine: ex.Engine): void {
     this.on("pointerup", () => {
+      if (Sounds.CHOOSE.isPlaying()) return;
       Sounds.CHOOSE.play(0.2).then(() => {
         engine.goToScene(this.selectedScene);
         this.resetHero();
-        console.log(`go to ${this.selectedScene}`);
       });
     });
 
@@ -158,6 +159,8 @@ class movingEyes extends ex.Actor {
   }
 
   update(engine: ex.Engine, delta: number): void {
+    if (Sounds.CHOOSE.isPlaying()) return;
+    
     super.update(engine, delta);
     switch (selectedMenuItemIndex[0]) {
       case 0:
@@ -207,18 +210,18 @@ class movingEyes extends ex.Actor {
 }
 
 export class StageSelect extends ex.Scene {
-  onActivate(_context: ex.SceneActivationContext<unknown>): void {
-    ui?.classList.add("StageSelect");
+  // onActivate(_context: ex.SceneActivationContext<unknown>): void {
+  //   ui?.classList.add("StageSelect");
 
-    const startButton = document.createElement("button");
-    startButton.className = "button button--webdev";
-    // startButton.innerText = 'WEB DEV'
-    startButton.onclick = () => {
-      // this.engine.goToScene('webDev')
-      console.log("go to coding");
-    };
-    ui?.appendChild(startButton);
-  }
+  //   const startButton = document.createElement("button");
+  //   startButton.className = "button button--webdev";
+  //   // startButton.innerText = 'WEB DEV'
+  //   startButton.onclick = () => {
+  //     // this.engine.goToScene('webDev')
+  //     console.log("go to coding");
+  //   };
+  //   ui?.appendChild(startButton);
+  // }
 
   onInitialize(_engine: ex.Engine): void {
     this.engine.add(new StageSelectBG());
@@ -317,14 +320,15 @@ export class StageSelect extends ex.Scene {
   resetHero() {
     this.engine.currentScene.actors.find((a) => a instanceof Hero)?.kill();
     const hero = new Hero(400, 100);
-    if (this !== this.engine.currentScene)
-      this.engine.add(hero);
+    if (this !== this.engine.currentScene) this.engine.add(hero);
     hero.pos = ex.vec(400, 100);
     hero.vel = ex.vec(0, 0);
   }
 
   update(engine: ex.Engine, delta: number): void {
     super.update(engine, delta);
+
+    if (Sounds.CHOOSE.isPlaying()) return;
 
     selectedMenuItem =
       menuItems[selectedMenuItemIndex[0]][selectedMenuItemIndex[1]];
@@ -369,6 +373,7 @@ export class StageSelect extends ex.Scene {
     }
 
     const [row, column] = selectedMenuItemIndex;
+
     if (engine.input.keyboard.wasPressed(ex.Keys.Up)) {
       selectedMenuItemIndex = [Math.max(0, row - 1), column];
     }
@@ -393,17 +398,16 @@ export class StageSelect extends ex.Scene {
       Sounds.CHOOSE.play(0.2).then(() => {
         engine.goToScene(selectedMenuItem.selectedScene);
         this.resetHero();
-        console.log(`Selected: ${selectedMenuItem.selectedScene}`);
       });
     }
 
     // TODO - only trigger one menu movement per joystick event
   }
 
-  onDeactivate(): void {
-    ui?.classList.remove("StageSelect");
-    ui!.innerHTML = "";
-  }
+  // onDeactivate(): void {
+  //   ui?.classList.remove("StageSelect");
+  //   ui!.innerHTML = "";
+  // }
 }
 
 class StageSelectBG extends ex.Actor {

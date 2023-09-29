@@ -43,6 +43,21 @@ const heroTeleportSpriteSheet = ex.SpriteSheet.fromImageSourceWithSourceViews({
     ]
 })
 
+const heroShootSpriteSheet = ex.SpriteSheet.fromImageSource({
+    image: Images.heroShoot,
+    grid: {
+        columns: 4,
+        rows: 1,
+        spriteWidth: 31,
+        spriteHeight: 24,
+    },
+    spacing: {
+        margin: {
+            x: 4,
+        }
+    }
+})
+
 export const eyeSpriteSheet = ex.SpriteSheet.fromImageSource({
     image: Images.heroEyes,
     grid: {
@@ -77,6 +92,10 @@ const idle = new ex.Animation({
 
 const idleRight = idle.clone()
 idleRight.flipHorizontal = true
+
+const idleShoot = ex.Animation.fromSpriteSheet(heroShootSpriteSheet, [0], 200)
+const idleShootRight = idleShoot.clone()
+idleShootRight.flipHorizontal = true
 
 const jump = new ex.Animation({
     frames: [
@@ -125,11 +144,23 @@ const runR2 = run2.clone()
 runR2.flipHorizontal = true
 const runR3 = run3.clone()
 runR3.flipHorizontal = true
+
+const runS1 = ex.Animation.fromSpriteSheet(heroRunSpriteSheet, [1], 200)
+const runS2 = ex.Animation.fromSpriteSheet(heroRunSpriteSheet, [2], 200)
+const runS3 = ex.Animation.fromSpriteSheet(heroRunSpriteSheet, [1], 200)
+
+const runSR1 = runS1.clone()
+runSR1.flipHorizontal = true
+const runSR2 = runS2.clone()
+runSR2.flipHorizontal = true
+const runSR3 = runS3.clone()
 // #endregion
 
 const heroAnimations = {
     idle,
     idleRight,
+    idleShoot,
+    idleShootRight,
     jump,
     jumpRight,
     teleport,
@@ -140,14 +171,20 @@ const heroAnimations = {
     runR1,
     runR2,
     runR3,
+    runS1,
+    runS2,
+    runS3,
+    runSR1,
+    runSR2,
+    runSR3,
 }
 
 export const animationMap = {
     IDLE: [idle, idleRight],
     JUMP: [jump, jumpRight],
-    RUN1: [run1, runR1],
-    RUN2: [run2, runR2],
-    RUN3: [run3, runR3],
+    RUN1: [run1, runR1, runS1, runSR1],
+    RUN2: [run2, runR2, runS2, runSR2],
+    RUN3: [run3, runR3, runS3, runSR3],
 }
 
 export default heroAnimations

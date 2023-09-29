@@ -2,19 +2,23 @@ import * as ex from "excalibur";
 import { Hero } from "./Hero/hero";
 import heroAnimations, { animationMap } from "./Hero/animations";
 
-let pointerTouching = false;
+let isMouseOverAnyTeleporter = false;
+let isHeroTouchingAnyTeleporter = false;
 
 export class Teleporter extends ex.Actor {
   projectName: string;
   projectURL: string;
   sceneName: string | null;
   heroTouching: boolean;
+  pointerTouching: boolean;
+  xy: [number, number] = [400, 100];
   constructor(
     x: number,
     y: number,
     projectName: string,
     projectURL: string,
-    sceneName: string | null
+    sceneName: string | null,
+    xy: [number, number] = [400, 100]
   ) {
     super({
       pos: ex.vec(x, y),
@@ -30,13 +34,24 @@ export class Teleporter extends ex.Actor {
     this.sceneName = sceneName;
     this.graphics.opacity = 0;
     this.heroTouching = false;
+    this.pointerTouching = false;
+    this.xy = xy;
+
+    const projectLabel = new ProjectLabel(this.pos.x, this.pos.y - 80, projectName);
 
     this.on("collisionstart", (ev) => {
       if (ev.other instanceof Hero) {
         this.heroTouching = true;
         this.scene.add(
-          new ProjectLabel(this.pos.x, this.pos.y - 80, projectName)
+          projectLabel
         );
+      }
+    });
+
+    this.on("collisionend", (ev) => {
+      if (ev.other instanceof Hero) {
+        projectLabel?.kill()
+        this.heroTouching = false;
       }
     });
 
@@ -53,55 +68,46 @@ export class Teleporter extends ex.Actor {
           // )
           engine.goToScene(sceneName);
 
-          // remove hero actor from scene
-          // add hero actor to new scene
+          // remove hero actor from scene and add to new one
           //@ts-ignore
           // prettier-ignore
           engine.currentScene.remove(engine.currentScene.actors.find((a) => a instanceof Hero));
           const scenes = engine.scenes;
-          const hero = new Hero(400, 100);
+          const hero = new Hero(this.xy[0], this.xy[1]);
           if (sceneName !== "stageSelect") scenes[sceneName].add(hero);
 
-          hero.pos = ex.vec(400, 100);
+          // hero.pos = ex.vec(400, 100);
           hero.vel = ex.vec(0, 0);
         } else window.open(projectURL, "_blank");
       }
     };
 
-    this.on("collisionend", (ev) => {
-      if (ev.other instanceof Hero) {
-        this.scene.actors.find((a) => a instanceof ProjectLabel)?.kill();
-        this.heroTouching = false;
-      }
-    });
-
     this.on("pointerenter", () => {
-      if (this.heroTouching) return;
-      this.scene.add(
-        new ProjectLabel(this.pos.x, this.pos.y - 80, projectName)
-      );
-      pointerTouching = true;
+      // if (this.heroTouching) return;
+
+      this.emit("collisionstart", { other: this.scene.actors.find((a) => a instanceof Hero) });
+      this.heroTouching = false;
     });
 
     this.on("pointerleave", () => {
-      if (this.heroTouching) return;
-      this.scene.actors.find((a) => a instanceof ProjectLabel)?.kill();
-      pointerTouching = false;
+      // if (this.heroTouching) return;
+
+      this.emit("collisionend", { other: this.scene.actors.find((a) => a instanceof Hero) });
+      this.heroTouching = false;
     });
 
     this.on("pointerup", () => {
       if (sceneName) {
         this.scene.engine.goToScene(sceneName);
-        // remove hero actor from scene
-        // add hero actor to new scene
+        // remove hero actor from scene and add to new one
         //@ts-ignore
         // prettier-ignore
         this.scene.engine.currentScene.remove(this.scene.engine.currentScene.actors.find((a) => a instanceof Hero));
         const scenes = this.scene.engine.scenes;
-        const hero = new Hero(400, 100);
+        const hero = new Hero(this.xy[0], this.xy[1]);
         if (sceneName !== "stageSelect") scenes[sceneName].add(hero);
 
-        hero.pos = ex.vec(400, 100);
+        // hero.pos = ex.vec(400, 100);
         hero.vel = ex.vec(0, 0);
       } else window.open(projectURL, "_blank");
     });
@@ -118,14 +124,22 @@ class ProjectLabel extends ex.Label {
         family: "MMRock9",
         shadow: {
           blur: 0,
-          offset: ex.vec(5, 5),
+          offset: ex.vec(4, 4),
           color: ex.Color.Black,
         },
         textAlign: ex.TextAlign.Center,
       }),
-      z: 100,
+      z: 3,
     });
 
+    const background = new ex.Actor({
+      pos: ex.vec(x, y),
+      width: 200,
+      height: 30,
+      color: ex.Color.Black,
+      z: 1,
+    });
+    
     this.text = text;
   }
 }

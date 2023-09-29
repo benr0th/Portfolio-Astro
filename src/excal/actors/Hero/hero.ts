@@ -41,6 +41,7 @@ export class Hero extends ex.Actor {
       scale: new ex.Vector(2.5, 2.5),
       collisionType: ex.CollisionType.Active,
     });
+    
     this.graphics.use(heroAnimations.idleRight);
     this.onGround = false;
     this.directionQueue = new DirectionQueue();

@@ -92,8 +92,9 @@ export class TitleScreen extends ex.Scene {
   }
 
   update(engine: ex.Engine, delta: number): void {
+    if (Sounds.CHOOSE.isPlaying()) return;
+    
     super.update(engine, delta);
-
     if (selectedItemIndex !== prevSelectedItemIndex) {
       for (const item of menuItems) {
         if (menuItems.indexOf(item) === selectedItemIndex) {

@@ -27,7 +27,7 @@ game.add('gameDev', new GameDev)
 game.add('coding', new Coding)
 game.goToScene("titleScreen");
 
-// DEBUG ONLY
+// !DEBUG ONLY
 // game.goToScene('stageSelect')
 // game.goToScene('coding')
 
@@ -70,16 +70,19 @@ checkMobile(isMobileMediaQuery);
 // Add event listener to track changes in the media query
 isMobileMediaQuery.addEventListener("change", checkMobile);
 
+const joystickZone = document.getElementById("joystick-zone");
+const buttonZone = document.getElementById("button-zone");
+const aButton = document.getElementById("a-button");
+// const bButton = document.getElementById("b-button");
+
 if (isMobile) {
-  document.getElementById("joystick-zone")?.classList.remove("hidden");
-  document.getElementById("button-zone")?.classList.remove("hidden");
-  document.getElementById("a-button")?.classList.remove("hidden");
-  // document.getElementById("b-button")?.classList.remove("hidden");
+  joystickZone?.classList.remove("hidden");
+  buttonZone?.classList.remove("hidden");
+  aButton?.classList.remove("hidden");
 } else {
-  document.getElementById("joystick-zone")?.classList.add("hidden");
-  document.getElementById("button-zone")?.classList.add("hidden");
-  document.getElementById("a-button")?.classList.add("hidden");
-  // document.getElementById("b-button")?.classList.add("hidden");
+  joystickZone?.classList.add("hidden");
+  buttonZone?.classList.add("hidden");
+  aButton?.classList.add("hidden");
 }
 //#endregion
 
