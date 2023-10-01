@@ -13,7 +13,6 @@ export class TitleScreen extends ex.Scene {
       y: 390,
       width: 250,
       height: 30,
-      color: ex.Color.Transparent,
       z: 1,
       anchor: ex.vec(0, 0),
     });
@@ -51,6 +50,18 @@ export class TitleScreen extends ex.Scene {
     });
 
     titleSelectorPass.graphics.use(Images.titleScreenArrow.toSprite());
+
+    // !MAKES PORTFOLIO ANONYMOUS - PLEASE REMOVE BEFORE PUBLISHING
+    const blackout = new ex.Actor({
+      x: 400,
+      y: 220,
+      width: 500,
+      height: 100,
+      color: ex.Color.Black,
+      z: 1,
+    });
+
+    this.add(blackout);
 
     startButton.on("pointerup", () => {
       ex.AudioContextFactory.create().resume();
@@ -127,6 +138,7 @@ class TitlePicture extends ex.Actor {
       width: 850,
       anchor: ex.vec(0, 0),
       scale: ex.vec(0.75, 0.75),
+      // color: ex.Color.Black,
     });
   }
 

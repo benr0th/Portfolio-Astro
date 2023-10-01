@@ -2,11 +2,13 @@ import * as ex from 'excalibur'
 
 const Images = {
     // Hero sprites
+    heroSheet: new ex.ImageSource('sprites/mm-48-drew-blue-sheet.png'),
     heroIdle: new ex.ImageSource('sprites/mmIdle.png'),
     heroJump: new ex.ImageSource('sprites/jump.png'),
     heroRun: new ex.ImageSource('sprites/mmRun.png'),
     heroTeleport: new ex.ImageSource('sprites/mmTeleport.png'),
-    heroShoot: new ex.ImageSource('sprites/mm-lemon.png'),
+    heroShoot: new ex.ImageSource('sprites/mmShootGround.png'),
+    heroBullet: new ex.ImageSource('sprites/mm-lemon.png'),
 
     // Backgrounds
     stageSelectImg: new ex.ImageSource('maps/stage_select.png'),
@@ -32,7 +34,7 @@ const Images = {
 
 const Sounds = {
     LANDING: new ex.Sound('sounds/land.wav'),
-    SHOOT: new ex.Sound('sounds/mm-bullet.wav'),
+    SHOOT: new ex.Sound('sounds/BulletShoot.wav'),
     PAIN: new ex.Sound('sounds/mm-pain.wav'),
     SELECT: new ex.Sound('sounds/StageSelect.wav'),
     CHOOSE: new ex.Sound('sounds/StageChoose.wav'),

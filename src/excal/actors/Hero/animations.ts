@@ -2,6 +2,16 @@ import * as ex from 'excalibur'
 import { Images } from '../../resources.ts'
 
 // #region Sprite sheets
+const heroSpriteSheet = ex.SpriteSheet.fromImageSource({
+    image: Images.heroSheet,
+    grid: {
+      columns: 10,
+      rows: 10,
+      spriteWidth: 48,
+      spriteHeight: 48,
+    },
+});
+
 const heroIdleSpriteSheet = ex.SpriteSheet.fromImageSource({
     image: Images.heroIdle,
     grid: {
@@ -79,11 +89,11 @@ export const eyeSpriteSheet = ex.SpriteSheet.fromImageSource({
 const idle = new ex.Animation({
     frames: [
         {
-            graphic: heroIdleSpriteSheet.sprites[0],
+            graphic: heroSpriteSheet.sprites[0],
             duration: 2000,
         },
         {
-            graphic: heroIdleSpriteSheet.sprites[1],
+            graphic: heroSpriteSheet.sprites[1],
             duration: 100,
         },
     ],
@@ -93,50 +103,47 @@ const idle = new ex.Animation({
 const idleRight = idle.clone()
 idleRight.flipHorizontal = true
 
-const idleShoot = ex.Animation.fromSpriteSheet(heroShootSpriteSheet, [0], 200)
+const idleShoot = ex.Animation.fromSpriteSheet(heroSpriteSheet, [10], 200)
 const idleShootRight = idleShoot.clone()
 idleShootRight.flipHorizontal = true
 
-const jump = new ex.Animation({
-    frames: [
-        {
-            graphic: Images.heroJump.toSprite(),
-            duration: 200,
-        },
-    ],
-})
+const jump = ex.Animation.fromSpriteSheet(heroSpriteSheet, [6], 200)
 const jumpRight = jump.clone()
 jumpRight.flipHorizontal = true
+
+const jumpShoot = ex.Animation.fromSpriteSheet(heroSpriteSheet, [16], 200)
+const jumpShootRight = jumpShoot.clone()
+jumpShootRight.flipHorizontal = true
 
 // heroTeleportSpriteSheet.sprites[0].origin = ex.vec(0, 3)
 const teleport = new ex.Animation({
     frames: [
         {
-            graphic: heroTeleportSpriteSheet.sprites[0],
+            graphic: heroSpriteSheet.sprites[40],
             duration: 100
         },
         {
-            graphic: heroTeleportSpriteSheet.sprites[1],
+            graphic: heroSpriteSheet.sprites[41],
             duration: 400
         },
         {
-            graphic: heroTeleportSpriteSheet.sprites[0],
+            graphic: heroSpriteSheet.sprites[40],
             duration: 300
         },
         {
-            graphic: heroTeleportSpriteSheet.sprites[2],
+            graphic: heroSpriteSheet.sprites[42],
             duration: 500
         },
     ],
     strategy: ex.AnimationStrategy.Freeze,
 })
 
-const teleportFalling = heroTeleportSpriteSheet.sprites[0]
+const teleportFalling = heroSpriteSheet.sprites[40]
 
 // const run = ex.Animation.fromSpriteSheet(heroRunSpriteSheet, [0, 1, 2], 100)
-const run1 = ex.Animation.fromSpriteSheet(heroRunSpriteSheet, [0], 200)
-const run2 = ex.Animation.fromSpriteSheet(heroRunSpriteSheet, [1], 200)
-const run3 = ex.Animation.fromSpriteSheet(heroRunSpriteSheet, [2], 200)
+const run1 = ex.Animation.fromSpriteSheet(heroSpriteSheet, [3], 200)
+const run2 = ex.Animation.fromSpriteSheet(heroSpriteSheet, [4], 200)
+const run3 = ex.Animation.fromSpriteSheet(heroSpriteSheet, [5], 200)
 
 const runR1 = run1.clone()
 runR1.flipHorizontal = true
@@ -145,9 +152,9 @@ runR2.flipHorizontal = true
 const runR3 = run3.clone()
 runR3.flipHorizontal = true
 
-const runS1 = ex.Animation.fromSpriteSheet(heroRunSpriteSheet, [1], 200)
-const runS2 = ex.Animation.fromSpriteSheet(heroRunSpriteSheet, [2], 200)
-const runS3 = ex.Animation.fromSpriteSheet(heroRunSpriteSheet, [1], 200)
+const runS1 = ex.Animation.fromSpriteSheet(heroSpriteSheet, [13], 200)
+const runS2 = ex.Animation.fromSpriteSheet(heroSpriteSheet, [14], 200)
+const runS3 = ex.Animation.fromSpriteSheet(heroSpriteSheet, [15], 200)
 
 const runSR1 = runS1.clone()
 runSR1.flipHorizontal = true
@@ -163,6 +170,8 @@ const heroAnimations = {
     idleShootRight,
     jump,
     jumpRight,
+    jumpShoot,
+    jumpShootRight,
     teleport,
     teleportFalling,
     run1,
@@ -180,8 +189,8 @@ const heroAnimations = {
 }
 
 export const animationMap = {
-    IDLE: [idle, idleRight],
-    JUMP: [jump, jumpRight],
+    IDLE: [idle, idleRight, idleShoot, idleShootRight],
+    JUMP: [jump, jumpRight, jumpShoot, jumpShootRight],
     RUN1: [run1, runR1, runS1, runSR1],
     RUN2: [run2, runR2, runS2, runSR2],
     RUN3: [run3, runR3, runS3, runSR3],
