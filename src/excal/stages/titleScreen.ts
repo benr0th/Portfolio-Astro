@@ -51,7 +51,6 @@ export class TitleScreen extends ex.Scene {
 
     titleSelectorPass.graphics.use(Images.titleScreenArrow.toSprite());
 
-    // !MAKES PORTFOLIO ANONYMOUS - PLEASE REMOVE BEFORE PUBLISHING
     const blackout = new ex.Actor({
       x: 400,
       y: 220,
@@ -61,7 +60,7 @@ export class TitleScreen extends ex.Scene {
       z: 1,
     });
 
-    this.add(blackout);
+    // this.add(blackout);
 
     startButton.on("pointerup", () => {
       ex.AudioContextFactory.create().resume();

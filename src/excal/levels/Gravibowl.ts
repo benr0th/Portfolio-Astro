@@ -32,7 +32,7 @@ export class Gravibowl extends ex.Scene {
         engine.add(hero)
         hero.z = 10
 
-        engine.add(new Teleporter(100, 470, '', '', 'gameDev', [150, 450]))
+        engine.add(new Teleporter(100, 470, '', '', 'gameDev', [150, 470]))
         engine.add(new Teleporter(710, 470, 'Play', 'https://broth-studios.itch.io/gravibowl', null))
         engine.add(room)
 

@@ -161,6 +161,7 @@ runSR1.flipHorizontal = true
 const runSR2 = runS2.clone()
 runSR2.flipHorizontal = true
 const runSR3 = runS3.clone()
+runSR3.flipHorizontal = true
 // #endregion
 
 const heroAnimations = {
