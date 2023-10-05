@@ -51,9 +51,6 @@ const room = new Room({
 
 export class Coding extends ex.Scene {
   onInitialize(engine: ex.Engine): void {
-    // const hero = new Hero(400, 100)
-    // hero.z = 1
-    // engine.add(hero)
     engine.add("Textboxified", new Textboxified)
 
     this.addTeleporters();

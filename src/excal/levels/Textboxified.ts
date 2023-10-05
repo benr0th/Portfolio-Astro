@@ -28,10 +28,6 @@ const room = new Room({
 
 export class Textboxified extends ex.Scene {
     onInitialize(engine: ex.Engine) {
-        const hero = new Hero(400, 100)
-        engine.add(hero)
-        hero.z = 10
-
         engine.add(new Teleporter(100, 470, '', '', 'coding', [350, 450]))
         // engine.add(new Teleporter(710, 470, 'Play', 'https://broth-studios.itch.io/gravibowl', null))
         engine.add(room)

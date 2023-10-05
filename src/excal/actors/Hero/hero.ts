@@ -191,23 +191,30 @@ export class Hero extends ex.Actor {
   checkForShootInput(engine: ex.Engine) {
     const SHOOT_KEY = ex.Keys.X;
 
-    // if there are more than 3 bullet on screen, do not shoot
-    // prettier-ignore
-    if (engine.currentScene.actors.filter((a) => a instanceof HeroBullet).length === 3)
-      return;
-
     if (engine.input.keyboard.wasPressed(SHOOT_KEY)) {
       this.shootBullet(engine);
     }
   }
 
-  shootBullet(engine: ex.Engine) {
+  public shootBullet(engine: ex.Engine) {
+    // if there are 3 bullets on screen, do not shoot
+    // prettier-ignore
+    if (engine.currentScene.actors.filter((a) => a instanceof HeroBullet).length === 3)
+      return;
+
     this.shootingMsLeft = 300;
 
     // Get ideal bullet position per direction
     let bulletX = this.pos.x - 24 * 2;
     if (this.spriteDirection === "RIGHT") {
       bulletX = this.pos.x + 24 * 2;
+    }
+    // adjust for jump sprite
+    if (!this.onGround) {
+      bulletX = this.pos.x - 18 * 2;
+      if (this.spriteDirection === "RIGHT") {
+        bulletX = this.pos.x + 18 * 2;
+      }
     }
 
     Sounds.SHOOT.play(0.2);
