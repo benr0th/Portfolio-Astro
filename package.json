@@ -14,7 +14,7 @@
     "@astrojs/tailwind": "^5.0.0",
     "@excaliburjs/plugin-tiled": "^0.28.0",
     "astro": "^3.0.12",
-    "excalibur": "^0.28.1",
+    "excalibur": "^0.29.0",
     "svelte": "^4.2.0",
     "tailwindcss": "^3.3.3"
   },
